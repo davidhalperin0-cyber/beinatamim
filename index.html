@@ -314,6 +314,7 @@ h1 .accent{color:var(--terra-l);}
 .step:hover .step-n{background:var(--terra);color:white;transform:scale(1.1);}
 .step-t{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:1.05rem;color:var(--brown);margin-bottom:.45rem;}
 .step-d{font-size:.85rem;color:var(--text-s);line-height:1.65;font-weight:300;}
+.steps-mobile-img{display:none;}
 
 /* ── MOSAIC ───────────────────────────────── */
 .mosaic{
@@ -478,6 +479,8 @@ footer{
   .f-grid,.m-grid{grid-template-columns:1fr;}
   .steps{grid-template-columns:repeat(2,1fr);}
   .steps::before{display:none;}
+  .steps-mobile-img{display:block;grid-column:1/-1;margin-bottom:1.5rem;}
+  .steps-mobile-img img{width:100%;height:auto;border-radius:12px;object-fit:cover;max-height:70vh;}
   .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
   .mo.tall{grid-row:span 1;}
   .sv-grid{grid-template-columns:1fr;}
@@ -1031,6 +1034,7 @@ footer{
     <h2 class="s-title">ארבעה שלבים לשבת שקטה</h2>
   </div>
   <div class="steps">
+    <div class="steps-mobile-img"><img src="steps-mobile.png" alt="מנה מוגשת לשבת"></div>
     <div class="step rev"><div class="step-n">1</div><h4 class="step-t">וואטסאפ</h4><p class="step-d">שולחים הודעה ומספרים על השבת כמות סועדים, מה רוצים.</p></div>
     <div class="step rev"><div class="step-n">2</div><h4 class="step-t">בוחרים תפריט</h4><p class="step-d">בוחרים מתוך החבילות המוכנות או בונים תפריט מותאם.</p></div>
     <div class="step rev"><div class="step-n">3</div><h4 class="step-t">מגיע מוכן</h4><p class="step-d">איסוף עצמי ברחוב הרכבת 49 או משלוח עד הבית.</p></div>
