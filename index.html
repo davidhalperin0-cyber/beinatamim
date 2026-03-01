@@ -44,12 +44,18 @@ header.scrolled{box-shadow:0 2px 20px rgba(61,43,31,.12);}
   header{
     padding-inline:1rem;
     min-height:72px;
+    flex-wrap:nowrap;
   }
   header .logo{
     font-size:1.35rem;
     line-height:1.35;
     padding-inline:0.25rem;
     padding-block:0.4em;
+    order:2;
+  }
+  header .hdr-actions{
+    order:1;
+    flex-shrink:0;
   }
 }
 
