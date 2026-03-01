@@ -25,34 +25,31 @@ header{
   padding-top:env(safe-area-inset-top,0);
   padding-bottom:max(0.5rem,env(safe-area-inset-bottom,0));
   display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;
   background:rgba(245,239,224,0.93);backdrop-filter:blur(14px);
   border-bottom:1px solid rgba(217,204,174,0.5);
   transition:box-shadow .3s;
   overflow:visible;
 }
 header.scrolled{box-shadow:0 2px 20px rgba(61,43,31,.12);}
-.logo{font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:1.5rem;color:var(--brown);line-height:1.2;display:flex;align-items:center;}
+.logo{
+  font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:1.5rem;color:var(--brown);
+  line-height:1.3;display:flex;align-items:center;
+  flex-shrink:0;white-space:nowrap;
+  padding:0.35em 0;
+}
 .logo span{color:var(--terra);}
 
 @media(max-width:900px){
   header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    overflow:visible;
-    max-width:100%;
-    box-sizing:border-box;
-    padding-inline-start:1.25rem;
-    padding-inline-end:1.25rem;
+    padding-inline:1rem;
+    min-height:72px;
   }
   header .logo{
-    flex-shrink:0;
-    max-width:100%;
-    overflow:visible;
-    position:relative;
-    padding-inline-end:0.5rem;
-    line-height:1.25;
-    white-space:nowrap;
+    font-size:1.35rem;
+    line-height:1.35;
+    padding-inline:0.25rem;
+    padding-block:0.4em;
   }
 }
 
