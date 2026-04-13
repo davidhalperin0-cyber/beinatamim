@@ -681,12 +681,25 @@ footer{
 .mm-grid{display:grid;grid-template-columns:1fr 1fr;gap:.1rem 3.5rem;}
 @media(max-width:600px){.mm-grid{grid-template-columns:1fr;}}
 .mm-row{
-  display:flex;justify-content:space-between;align-items:baseline;
-  padding:.42rem 0;border-bottom:1px solid rgba(217,204,174,.07);gap:.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.42rem 0;border-bottom:1px solid rgba(217,204,174,.07);gap:.65rem;
+  flex-wrap:nowrap;
 }
 .mm-row:last-child{border-bottom:none;}
-.mm-name{font-size:.86rem;color:rgba(245,239,224,.92);font-weight:400;line-height:1.4;}
-.mm-price{font-size:.83rem;color:var(--terra-l);font-weight:700;white-space:nowrap;flex-shrink:0;}
+.mm-name{
+  font-size:.86rem;color:rgba(245,239,224,.92);font-weight:400;line-height:1.4;
+  flex:1;min-width:0;padding-inline-end:.35rem;
+}
+.mm-row-meta{
+  display:flex;align-items:center;gap:.35rem;flex-shrink:0;
+}
+.mm-price{font-size:.83rem;color:var(--terra-l);font-weight:700;white-space:nowrap;}
+.mm-price--hint{font-size:.76rem;font-weight:600;color:rgba(217,204,174,.88);white-space:normal;text-align:start;max-width:9.5rem;line-height:1.25;}
+@media(max-width:480px){.mm-price--hint{max-width:7rem;font-size:.72rem;}}
+@media(max-width:520px){
+  .mm-row{flex-wrap:wrap;}
+  .mm-row-meta{width:100%;justify-content:flex-end;}
+}
 .mm-note{font-size:.75rem;color:rgba(217,204,174,.5);}
 .mm-sub{font-size:.8rem;color:rgba(217,204,174,.6);font-style:italic;padding:.3rem 0 .5rem;line-height:1.6;}
 .mm-salad-legend{
@@ -717,6 +730,47 @@ footer{
 }
 .mm-foot a{color:var(--terra-l);text-decoration:none;font-weight:700;}
 .mm-foot strong{color:rgba(217,204,174,.85);}
+
+/* סל הזמנה בתוך מודאל התפריט */
+.mm-order-actions{
+  display:inline-flex;align-items:center;gap:.18rem;flex-shrink:0;
+}
+.mm-row-meta .mm-order-actions{flex-shrink:0;}
+.mm-row-meta .mm-price--hint{flex:0 1 auto;min-width:0;}
+.mm-pkg-order .mm-pkg-price{font-size:1.15rem;margin:0;}
+.mm-oq{
+  width:1.7rem;height:1.7rem;padding:0;border:1px solid rgba(217,204,174,.4);
+  background:rgba(0,0,0,.12);color:var(--cream);border-radius:3px;cursor:pointer;
+  font-size:1.05rem;line-height:1;font-weight:700;font-family:inherit;
+}
+.mm-oq:hover,.mm-oq:focus-visible{background:var(--terra);border-color:var(--terra);outline:none;}
+.mm-oq:disabled{opacity:.35;cursor:default;}
+.mm-oq-val{min-width:1.15rem;text-align:center;font-size:.82rem;font-weight:700;color:var(--terra-l);}
+.mm-cart{
+  margin-top:1.5rem;padding:1.1rem 1rem 1.2rem;
+  background:rgba(0,0,0,.14);border-radius:4px;
+  border:1px solid rgba(193,113,74,.25);
+}
+.mm-cart-title{font-family:'Frank Ruhl Libre',serif;font-size:1.05rem;font-weight:900;color:var(--terra-l);margin:0 0 .35rem;}
+.mm-cart-hint{font-size:.76rem;color:rgba(217,204,174,.62);margin:0 0 .75rem;line-height:1.45;}
+.mm-cart-lines{list-style:none;margin:0 0 .45rem;padding:0;font-size:.84rem;color:rgba(245,239,224,.95);}
+.mm-cart-lines li{padding:.28rem 0;border-bottom:1px solid rgba(217,204,174,.1);}
+.mm-cart-preview{
+  font-size:.76rem;color:rgba(245,239,224,.72);margin:0 0 .65rem;line-height:1.4;
+  padding:.45rem .55rem;background:rgba(0,0,0,.12);border-radius:3px;
+  border-inline-start:3px solid var(--terra);
+}
+.mm-cart-preview[hidden]{display:none!important;}
+.mm-cart-actions{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;align-items:center;}
+.mm-cart-wa{
+  background:var(--terra);color:#fff;border:none;padding:.55rem 1rem;border-radius:3px;
+  font-weight:700;cursor:pointer;font-family:inherit;font-size:.84rem;
+}
+.mm-cart-wa:hover,.mm-cart-wa:focus-visible{filter:brightness(1.08);outline:none;}
+.mm-cart-clear{
+  background:transparent;border:1px solid rgba(217,204,174,.35);
+  color:rgba(217,204,174,.9);padding:.45rem .85rem;border-radius:3px;cursor:pointer;font-family:inherit;font-size:.78rem;
+}
 
 /* ── DAIRY HIGHLIGHT SECTION ──────────────── */
 .dairy-section{
@@ -1460,6 +1514,19 @@ tick();
     <div class="mm-sec">אירועים קטנים ואירוח</div>
     <p class="mm-sub" style="text-align:center;font-style:normal;">הזמנות לשבת &mdash; עד יום חמישי 10:00 בבוקר</p>
 
+    <div class="mm-cart" id="menuCart">
+      <div class="mm-cart-title">בונים הזמנה מהתפריט</div>
+      <p class="mm-cart-hint">ליד <strong>כל</strong> מנה בתפריט יש <strong>+</strong> / <strong>−</strong> — בוחרים כמויות ואז שולחים את הרשימה בוואטסאפ (במנות לפי גודל מופיע מחיר לפי התפריט).</p>
+      <div class="mm-cart-summary" id="menuCartSummary" hidden>
+        <ul class="mm-cart-lines" id="menuCartLines" aria-label="פריטים בסל"></ul>
+        <p class="mm-cart-preview" id="menuCartPreview" hidden dir="rtl" aria-live="polite"></p>
+        <div class="mm-cart-actions">
+          <button type="button" class="mm-cart-wa" id="menuCartWaBtn">שלח הזמנה בוואטסאפ</button>
+          <button type="button" class="mm-cart-clear" id="menuCartClearBtn">נקו סל</button>
+        </div>
+      </div>
+    </div>
+
     <div class="mm-foot">
       <strong>קובי 054-281-1294</strong> &nbsp;|&nbsp; @kobi.canary<br>
       משלוחים חינם מעל &#8362;200 &nbsp;|&nbsp; איסוף עצמי &nbsp;|&nbsp; הרכבת 49<br>
@@ -1516,6 +1583,272 @@ tick();
   document.addEventListener('keydown', function(e){
     if(e.key==='Escape' && overlay.classList.contains('open')) closeMenu();
   });
+})();
+
+// ── סל הזמנה: עגלה לפי {id,name,quantity} + סיכום שורה אחת לוואטסאפ ─
+(function(){
+  var modal = document.getElementById('menuModal');
+  var summary = document.getElementById('menuCartSummary');
+  var linesEl = document.getElementById('menuCartLines');
+  var previewEl = document.getElementById('menuCartPreview');
+  var waBtn = document.getElementById('menuCartWaBtn');
+  var clearBtn = document.getElementById('menuCartClearBtn');
+  if(!modal || !summary || !linesEl || !waBtn || !clearBtn) return;
+
+  var WA = 'https://wa.me/972542811294?text=';
+  /** @type {Object.<string, {id:string,name:string,quantity:number,priceText:string}>} */
+  var cart = {};
+  /** @type {{id:string,name:string,priceText:string,qtySpan:HTMLElement,minus:HTMLButtonElement,plus:HTMLButtonElement}[]} */
+  var lineRefs = [];
+
+  function escapeHtml(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function makeLineId(section, name, priceText){
+    var raw = section + '\n' + name + '\n' + priceText;
+    var h = 0;
+    for(var i = 0; i < raw.length; i++){ h = ((h << 5) - h) + raw.charCodeAt(i); h |= 0; }
+    return 'i' + (h >>> 0).toString(36);
+  }
+
+  function inferPriceText(section, lastSub, saladHint, row){
+    var pe = row.querySelector('.mm-price');
+    if(pe) return pe.textContent.replace(/\s+/g,' ').trim();
+    if(section.indexOf('סלטים') !== -1)
+      return saladHint || '250 מ״ל ₪20 / 500 מ״ל ₪38';
+    if(section.indexOf('תוספות') !== -1 && lastSub.indexOf('45') !== -1)
+      return 'ליטר ₪45';
+    return 'לפי התפריט';
+  }
+
+  function getQuantity(id){
+    return (cart[id] && cart[id].quantity) || 0;
+  }
+
+  function setQuantity(id, name, priceText, nextQty){
+    nextQty = Math.max(0, Math.min(99, nextQty | 0));
+    if(nextQty === 0){
+      delete cart[id];
+    } else {
+      cart[id] = { id:id, name:name, quantity:nextQty, priceText:priceText };
+    }
+    syncRowDisplays();
+    renderSummary();
+  }
+
+  function bump(id, name, priceText, delta){
+    var q = getQuantity(id) + delta;
+    setQuantity(id, name, priceText, q);
+  }
+
+  function getCartArray(){
+    return Object.keys(cart).map(function(k){ return cart[k]; }).sort(function(a,b){
+      return a.name.localeCompare(b.name, 'he');
+    });
+  }
+
+  /** שורת סיכום אחת: "אני רוצה להזמין: חלה x2, מטבוחה x1" */
+  function buildOrderSummaryLine(){
+    var arr = getCartArray();
+    if(!arr.length) return '';
+    return 'אני רוצה להזמין: ' + arr.map(function(it){
+      return it.name + ' x' + it.quantity;
+    }).join(', ');
+  }
+
+  /** הודעת וואטסאפ מלאה — סיכום אחד, בלי כפילויות */
+  function buildWhatsAppMessage(){
+    var line = buildOrderSummaryLine();
+    if(!line) return '';
+    return 'היי, הגעתי דרך האתר.\n\n' + line + '\n\nאשמח לתיאום ואישור. תודה!';
+  }
+
+  function syncRowDisplays(){
+    lineRefs.forEach(function(ref){
+      var q = getQuantity(ref.id);
+      ref.qtySpan.textContent = String(q);
+      ref.minus.disabled = q <= 0;
+    });
+  }
+
+  function renderSummary(){
+    var arr = getCartArray();
+    if(!arr.length){
+      summary.hidden = true;
+      if(previewEl){ previewEl.hidden = true; previewEl.textContent = ''; }
+      linesEl.innerHTML = '';
+      return;
+    }
+    summary.hidden = false;
+    linesEl.innerHTML = arr.map(function(it){
+      return '<li>'+escapeHtml(it.name)+' — <strong>'+it.quantity+'</strong> <span style="opacity:.65">('+escapeHtml(it.priceText)+')</span></li>';
+    }).join('');
+    if(previewEl){
+      previewEl.textContent = buildOrderSummaryLine();
+      previewEl.hidden = false;
+    }
+  }
+
+  function attachQty(row, id, name, priceText){
+    if(row.getAttribute('data-menu-cart') === '1') return;
+    row.setAttribute('data-menu-cart','1');
+    var meta = document.createElement('span');
+    meta.className = 'mm-row-meta';
+    var priceEl = row.querySelector('.mm-price');
+    if(priceEl && priceEl.parentNode !== meta){
+      meta.appendChild(priceEl);
+    } else if(!priceEl){
+      var ph = document.createElement('span');
+      ph.className = 'mm-price mm-price--hint';
+      ph.textContent = priceText;
+      meta.appendChild(ph);
+    }
+    var qtySpan = document.createElement('span');
+    qtySpan.className = 'mm-oq-val';
+    qtySpan.textContent = '0';
+    qtySpan.setAttribute('aria-label','כמות');
+    var minus = document.createElement('button');
+    minus.type = 'button';
+    minus.className = 'mm-oq mm-oq-minus';
+    minus.setAttribute('aria-label','הפחת כמות');
+    minus.textContent = '−';
+    var plus = document.createElement('button');
+    plus.type = 'button';
+    plus.className = 'mm-oq mm-oq-plus';
+    plus.setAttribute('aria-label','הוסף כמות');
+    plus.textContent = '+';
+    var act = document.createElement('span');
+    act.className = 'mm-order-actions';
+    act.appendChild(minus);
+    act.appendChild(qtySpan);
+    act.appendChild(plus);
+    meta.appendChild(act);
+    row.appendChild(meta);
+
+    lineRefs.push({ id:id, name:name, priceText:priceText, qtySpan:qtySpan, minus:minus, plus:plus });
+    plus.addEventListener('click', function(){ bump(id, name, priceText, +1); });
+    minus.addEventListener('click', function(){ bump(id, name, priceText, -1); });
+    syncRowDisplays();
+    renderSummary();
+  }
+
+  function processRow(row, section, lastSub, saladHint){
+    if(row.closest('#menuCart')) return;
+    if(row.classList.contains('mm-pkg-order')) return;
+    for(var ri = 0; ri < row.children.length; ri++){
+      var rc = row.children[ri];
+      if(rc.classList && rc.classList.contains('mm-row-meta')) return;
+    }
+    var nameEl = row.querySelector('.mm-name');
+    if(!nameEl) return;
+    var name = nameEl.innerText.replace(/\s+/g,' ').trim();
+    if(!name) return;
+    var priceText = inferPriceText(section, lastSub, saladHint, row);
+    var id = makeLineId(section, name, priceText);
+    attachQty(row, id, name, priceText);
+  }
+
+  function processPkg(pkg){
+    if(pkg.querySelector('.mm-pkg-order')) return;
+    var h3 = pkg.querySelector('h3');
+    var sub = pkg.querySelector('.mm-pkg-sub');
+    var priceEl = pkg.querySelector('.mm-pkg-price');
+    if(!h3 || !priceEl) return;
+    var name = h3.textContent.trim() + (sub ? ' — ' + sub.textContent.replace(/\s+/g,' ').trim() : '');
+    var priceText = priceEl.textContent.replace(/\s+/g,' ').trim();
+    var id = 'package:shabbat';
+    var wrap = document.createElement('div');
+    wrap.className = 'mm-row mm-pkg-order';
+    wrap.style.marginTop = '.6rem';
+    wrap.style.paddingTop = '.5rem';
+    wrap.style.borderTop = '1px solid rgba(217,204,174,.12)';
+    var nm = document.createElement('span');
+    nm.className = 'mm-name';
+    nm.textContent = 'הוספה לסל: חבילה שלמה';
+    wrap.appendChild(nm);
+    var meta = document.createElement('span');
+    meta.className = 'mm-row-meta';
+    var priceDup = document.createElement('span');
+    priceDup.className = 'mm-pkg-price';
+    priceDup.textContent = priceText;
+    meta.appendChild(priceDup);
+    var qtySpan = document.createElement('span');
+    qtySpan.className = 'mm-oq-val';
+    qtySpan.textContent = '0';
+    var minus = document.createElement('button');
+    minus.type = 'button';
+    minus.className = 'mm-oq mm-oq-minus';
+    minus.textContent = '−';
+    var plus = document.createElement('button');
+    plus.type = 'button';
+    plus.className = 'mm-oq mm-oq-plus';
+    plus.textContent = '+';
+    var act = document.createElement('span');
+    act.className = 'mm-order-actions';
+    act.appendChild(minus);
+    act.appendChild(qtySpan);
+    act.appendChild(plus);
+    meta.appendChild(act);
+    wrap.appendChild(meta);
+    pkg.appendChild(wrap);
+
+    lineRefs.push({ id:id, name:name, priceText:priceText, qtySpan:qtySpan, minus:minus, plus:plus });
+    plus.addEventListener('click', function(){ bump(id, name, priceText, +1); });
+    minus.addEventListener('click', function(){ bump(id, name, priceText, -1); });
+    syncRowDisplays();
+    renderSummary();
+  }
+
+  var section = '';
+  var lastSub = '';
+  var saladHint = '';
+
+  function walk(el){
+    if(!el || el.id === 'menuCart') return;
+    var ch = el.children;
+    for(var i = 0; i < ch.length; i++){
+      var c = ch[i];
+      if(c.id === 'menuCart') continue;
+      var cl = c.classList;
+      if(cl.contains('mm-sec')) section = c.textContent.replace(/\s+/g,' ').trim();
+      else if(cl.contains('mm-salad-legend')) saladHint = c.textContent.replace(/\s+/g,' ').trim();
+      else if(cl.contains('mm-sub')) lastSub = c.textContent.replace(/\s+/g,' ').trim();
+      else if(cl.contains('mm-row')){
+        processRow(c, section, lastSub, saladHint);
+        continue;
+      }
+      else if(cl.contains('mm-pkg')){ walk(c); processPkg(c); continue; }
+      walk(c);
+    }
+  }
+  walk(modal);
+
+  var menuTrigger = document.getElementById('menuTrigger');
+  if(menuTrigger){
+    menuTrigger.addEventListener('click', function(){
+      requestAnimationFrame(function(){ walk(modal); });
+    });
+  }
+
+  waBtn.addEventListener('click', function(){
+    var msg = buildWhatsAppMessage();
+    if(!msg){
+      alert('בחרו לפחות פריט אחד עם כפתור +.');
+      return;
+    }
+    window.open(WA + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+  });
+
+  clearBtn.addEventListener('click', function(){
+    cart = {};
+    syncRowDisplays();
+    renderSummary();
+  });
+
+  window.getMenuCartArray = getCartArray;
+  window.buildMenuOrderSummaryLine = buildOrderSummaryLine;
+  window.buildMenuWhatsAppMessage = buildWhatsAppMessage;
 })();
 </script>
 
