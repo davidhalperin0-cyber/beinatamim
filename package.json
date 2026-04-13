@@ -4,6 +4,6 @@
   "description": "בין הטעמים – שף פרטי ירושלים",
   "private": true,
   "scripts": {
-    "build": "mkdir -p app/public && cp index.html steak-plate.png meta.json app/ && cp public/google67e66d91e6dd5634.html app/public/ 2>/dev/null || true && cp sitemap.xml robots.txt app/ 2>/dev/null || true"
+    "build": "mkdir -p app/public && cp index.html meta.json app/ && cp public/google67e66d91e6dd5634.html app/public/ 2>/dev/null || true && cp public/review-*.jpeg app/public/ 2>/dev/null || true && cp sitemap.xml robots.txt app/ 2>/dev/null || true"
   }
 }
