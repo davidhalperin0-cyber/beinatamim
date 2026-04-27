@@ -842,7 +842,7 @@ footer{
 .testimonials .s-title{color:var(--cream);}
 .tcarousel{
   position:relative;
-  max-width:260px;
+  max-width:340px;
   margin:2rem auto 0;
   text-align:center;
 }
@@ -854,6 +854,7 @@ footer{
   grid-area:1/1;
   display:flex;
   justify-content:center;
+  align-items:center;
   opacity:0;
   pointer-events:none;
   transition:opacity .7s ease;
@@ -863,7 +864,11 @@ footer{
   pointer-events:auto;
 }
 .tcard-img img{
-  width:100%; max-width:100%;
+  width:100%;
+  max-width:100%;
+  height:min(72vh, 560px);
+  object-fit:contain;
+  background:rgba(0,0,0,.08);
   border-radius:22px;
   box-shadow:0 16px 60px rgba(0,0,0,.6);
   display:block;
@@ -896,7 +901,7 @@ footer{
 @keyframes tprogress{from{width:0}to{width:100%}}
 @media(max-width:900px){
   .tarrow{display:none;}
-  .tcarousel{max-width:88%;}
+  .tcarousel{max-width:92%;}
   .testimonials{padding:40px 7%; max-width:100%;  box-sizing:border-box;}
   .tcard-text{font-size:.92rem;}
 }
