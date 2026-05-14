@@ -1636,7 +1636,7 @@ tick();
 
 <!-- MENU MODAL -->
 <div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true">
-  <div class="menu-modal" id="menuModal">
+  <div class="menu-modal" id="menuModal" data-lenis-prevent>
     <button class="mm-close" id="menuClose" aria-label="סגור">&#10005;</button>
 
     <div class="mm-head">
@@ -1828,6 +1828,29 @@ tick();
   var modal = document.getElementById('menuModal');
   if(!trigger||!overlay||!closeBtn||!modal) return;
   var savedScrollY = 0;
+  /* ── מניעת חטיפת גלילה ע״י Lenis בתוך המודל ── */
+  function onModalWheel(e){
+    var atTop    = modal.scrollTop === 0;
+    var atBottom = modal.scrollTop + modal.clientHeight >= modal.scrollHeight - 1;
+    if((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) {
+      e.preventDefault();
+    } else {
+      e.stopPropagation();
+    }
+  }
+  var touchStartY = 0;
+  function onModalTouchStart(e){ touchStartY = e.touches[0].clientY; }
+  function onModalTouchMove(e){
+    var dy = touchStartY - e.touches[0].clientY;
+    var atTop    = modal.scrollTop === 0;
+    var atBottom = modal.scrollTop + modal.clientHeight >= modal.scrollHeight - 1;
+    if((atTop && dy < 0) || (atBottom && dy > 0)){
+      e.preventDefault();
+    } else {
+      e.stopPropagation();
+    }
+  }
+
   function openMenu(){
     overlay.classList.add('open');
     /* iOS-safe scroll lock: freeze body at current position */
@@ -1837,6 +1860,10 @@ tick();
     document.body.style.top = (-savedScrollY) + 'px';
     /* pause smooth-scroll engine so wheel/touch events go to modal */
     if(window.__lenis){ try{ window.__lenis.stop(); }catch(e){} }
+    /* חסימת חטיפת אירועים ע״י Lenis */
+    modal.addEventListener('wheel', onModalWheel, { passive: false });
+    modal.addEventListener('touchstart', onModalTouchStart, { passive: true });
+    modal.addEventListener('touchmove', onModalTouchMove, { passive: false });
     setTimeout(function(){closeBtn.focus();},400);
   }
   function closeMenu(){
@@ -1847,6 +1874,10 @@ tick();
     /* restore scroll position */
     window.scrollTo(0, savedScrollY);
     if(window.__lenis){ try{ window.__lenis.start(); }catch(e){} }
+    /* שחרור מאזינים */
+    modal.removeEventListener('wheel', onModalWheel);
+    modal.removeEventListener('touchstart', onModalTouchStart);
+    modal.removeEventListener('touchmove', onModalTouchMove);
     trigger.focus();
   }
   trigger.addEventListener('click', openMenu);
