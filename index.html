@@ -103,8 +103,8 @@ nav a:hover{color:var(--terra);}
   padding:0 8% 12vh;}
 .hero-bg{
   position:absolute;inset:0;
-  background-image:url("public/img-1.jpg");
-  background-size:cover;background-position:center 30%;
+  background-image:url("public/chef-hero.jpg");
+  background-size:cover;background-position:center 68%;
   /* JS controls filter; start with visible state */
   filter:blur(3px) brightness(.65);
   transform:scale(1);
@@ -264,7 +264,7 @@ h1 .accent{color:var(--terra-l);}
 }
 .pq-bg{
   position:absolute;inset:0;
-  background-image:url("public/img-2.jpg");
+  background-image:url("public/chef-tataki.jpg");
   background-size:cover;background-position:center;
   background-attachment:fixed;
   filter:blur(6px) brightness(.52);
@@ -411,6 +411,48 @@ h1 .accent{color:var(--terra-l);}
 }
 .mo:hover .mo-cap{opacity:1;transform:translateY(0);}
 
+/* ── CHEF ─────────────────────────────────── */
+.chef{background:var(--parchment);padding:96px 7%;overflow:hidden;max-width:100%;box-sizing:border-box;}
+.chef-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2.5rem,6vw,5.5rem);align-items:center;max-width:1080px;margin:0 auto;}
+.chef-media{position:relative;}
+.chef-media::before{
+  content:'';position:absolute;top:20px;right:20px;bottom:-20px;left:-20px;
+  border:1px solid var(--terra);pointer-events:none;
+}
+.chef-media img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 20%;position:relative;}
+.chef-badge{
+  position:absolute;bottom:-14px;right:-6px;z-index:2;
+  background:var(--brown);color:var(--cream);
+  font-family:'Frank Ruhl Libre',serif;font-size:.8rem;letter-spacing:.12em;
+  padding:.55rem 1.1rem;
+}
+.chef-p{font-size:.95rem;color:var(--text-s);line-height:1.9;font-weight:300;margin-top:1.3rem;max-width:460px;}
+.chef-q{
+  margin:1.8rem 0 2.2rem;padding-right:1.2rem;
+  border-right:2px solid var(--terra);
+  font-family:'Frank Ruhl Libre',serif;font-size:1.15rem;color:var(--brown);
+  font-style:italic;line-height:1.6;max-width:420px;
+}
+@media(max-width:860px){
+  .chef{padding:64px 6%;}
+  .chef-grid{grid-template-columns:1fr;gap:3rem;}
+  .chef-media{margin:0 18px 18px 0;}
+}
+
+/* ── PHOTO MARQUEE ────────────────────────── */
+.pmq{background:var(--brown);padding:0;overflow:hidden;max-width:100%;box-sizing:border-box;direction:ltr;}
+.pmq-track{
+  display:flex;gap:6px;width:max-content;max-width:none;
+  animation:pmqScroll 55s linear infinite;
+}
+.pmq:hover .pmq-track{animation-play-state:paused;}
+.pmq-track img{
+  display:block;height:min(340px,42vw);width:auto;max-width:none;
+  filter:saturate(1.04);
+}
+@keyframes pmqScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.pmq-track{animation:none;}}
+
 /* ── SERVICES ─────────────────────────────── */
 .services{padding:90px 7%;background:var(--cream); max-width:100%;  box-sizing:border-box;}
 .sv-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:2.8rem;align-items:start;margin-top:2.8rem;}
@@ -432,7 +474,7 @@ h1 .accent{color:var(--terra-l);}
 .cta{position:relative;min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden; max-width:100%;  box-sizing:border-box;}
 .cta-bg{
   position:absolute;inset:0;
-  background-image:url("public/img-3.jpg");
+  background-image:url("public/chef-plating.jpg");
   background-size:cover;background-position:center;
   filter:blur(6px) brightness(.45);
   transform:scale(1.08);
@@ -1285,6 +1327,7 @@ body.menu-locked{
     <a href="#menu" class="mob-link">תפריטים</a>
     <a href="#how" class="mob-link">איך מזמינים</a>
     <a href="#services" class="mob-link">שירותים</a>
+    <a href="#chef" class="mob-link">השף</a>
     <a href="https://wa.me/972542811294?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%9B%D7%9D.%20%D7%94%D7%99%D7%99%D7%AA%D7%99%20%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%95%D7%93%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." class="nav-cta mob-link">הזמנה בוואטסאפ</a>
   </nav>
   <div class="logo">בין <span>הטעמים</span></div>
@@ -1342,7 +1385,7 @@ body.menu-locked{
 
 <!-- IMG STRIP -->
 <div class="strip" data-blur-target>
-  <img src="public/img-4.jpg" alt="מנת בשר על פירה סלק" loading="lazy" decoding="async" />
+  <img src="public/dish-carpaccio-watermelon.jpg" alt="קרפצ'יו דג ואבטיח עם עלי מיקרו" loading="lazy" decoding="async" />
   <div class="strip-ov">
     <div class="strip-text">
       <h3>חומרי גלם.<br>לא פשרות.</h3>
@@ -1350,6 +1393,24 @@ body.menu-locked{
     </div>
   </div>
 </div>
+
+<!-- CHEF -->
+<section class="chef" id="chef">
+  <div class="chef-grid">
+    <div class="chef-body rev">
+      <p class="s-label">מי מאחורי הסירים</p>
+      <h2 class="s-title">נעים להכיר — קובי</h2>
+      <p class="chef-p">שף פרטי שמביא את המטבח המקצועי עד אליכם. קובי מלווה אירועים בשריים, ערבי שף ושבתות — מהשיחה הראשונה על התפריט ועד הצלחת האחרונה שיוצאת למסוב.</p>
+      <p class="chef-p">כל אירוע מתחיל בהקשבה: מה אוהבים, מי האורחים, איזו חוויה רוצים ליצור. משם נבנה תפריט אישי — חומרי גלם מקומיים, עבודת יד, והגשה שעושה כבוד לשולחן שלכם.</p>
+      <blockquote class="chef-q">"מטבח שמחבר חומרי גלם, אנשים ורגעים"</blockquote>
+      <a href="https://wa.me/972542811294?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%9B%D7%9D.%20%D7%94%D7%99%D7%99%D7%AA%D7%99%20%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%D7%9F%20%D7%90%D7%99%D7%A8%D7%95%D7%A2%20%D7%91%D7%A9%D7%A8%D7%99." class="btn-p">דברו איתי על האירוע שלכם</a>
+    </div>
+    <div class="chef-media rev">
+      <img src="public/chef-portrait.jpg" alt="השף קובי במטבח, מצלחת מנת בשר" loading="lazy" decoding="async">
+      <span class="chef-badge">בין הטעמים · ירושלים</span>
+    </div>
+  </div>
+</section>
 
 <!-- SERVICES -->
 <section class="services" id="services">
@@ -1407,7 +1468,7 @@ body.menu-locked{
     </div>
   </div>
   <div class="sp" data-blur-target>
-    <img src="public/img-6.jpg" alt="קרפצ'יו טונה" loading="lazy" decoding="async" />
+    <img src="public/dish-crudo-labneh.jpg" alt="קרודו דג על לבנה עם פיסטוק" loading="lazy" decoding="async" />
     <div class="sp-ov">
       <span class="sp-tag">חומרי גלם · אירועים</span>
       <h3 class="sp-ttl">חשיבה קולינרית<br>בכל מנה</h3>
@@ -1429,6 +1490,28 @@ body.menu-locked{
   </div>
 </section>
 
+
+<!-- PHOTO MARQUEE -->
+<div class="pmq" aria-label="גלריית מנות מהמטבח">
+  <div class="pmq-track">
+    <img src="public/dish-carpaccio-watermelon.jpg" alt="קרפצ'יו דג ואבטיח" loading="lazy" decoding="async">
+    <img src="public/dish-challah.jpg" alt="חלות שבת" loading="lazy" decoding="async">
+    <img src="public/dish-tartare-mango.jpg" alt="טרטר טונה ומנגו" loading="lazy" decoding="async">
+    <img src="public/img-5.jpg" alt="שורט ריב על פירה דלעת" loading="lazy" decoding="async">
+    <img src="public/dish-nicoise.jpg" alt="סלט טונה צרובה וביצים" loading="lazy" decoding="async">
+    <img src="public/dish-crudo-labneh.jpg" alt="קרודו דג על לבנה" loading="lazy" decoding="async">
+    <img src="public/dish-avocado-egg.jpg" alt="מנת בוקר עם אבוקדו" loading="lazy" decoding="async">
+    <img src="public/dish-burrata.jpg" alt="בורטה ועגבניות" loading="lazy" decoding="async">
+    <img src="public/dish-carpaccio-watermelon.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img src="public/dish-challah.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img src="public/dish-tartare-mango.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img src="public/img-5.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img src="public/dish-nicoise.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img src="public/dish-crudo-labneh.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img src="public/dish-avocado-egg.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <img src="public/dish-burrata.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+  </div>
+</div>
 
 <!-- TESTIMONIALS -->
 <section class="testimonials">
@@ -1495,11 +1578,11 @@ body.menu-locked{
 
 <!-- MOSAIC -->
 <div class="mosaic">
-  <div class="mo tall"><img src="public/img-3.jpg" alt="מנות בשר" loading="lazy"/><div class="mo-cap">מנת בשר ביצוע בוטיק</div></div>
-  <div class="mo"><img src="public/img-4.jpg" alt="סלק" loading="lazy"/><div class="mo-cap">בשר על פירה סלק</div></div>
+  <div class="mo tall"><img src="public/dish-challah.jpg" alt="חלות שבת עבודת יד" loading="lazy"/><div class="mo-cap">חלות שבת — נאפות אצלנו</div></div>
+  <div class="mo"><img src="public/dish-tartare-mango.jpg" alt="טרטר טונה עם מנגו ואבוקדו" loading="lazy"/><div class="mo-cap">טרטר טונה, מנגו ואבוקדו</div></div>
   <div class="mo"><img src="public/img-5.jpg" alt="שורט ריב" loading="lazy"/><div class="mo-cap">שורט ריב ופירה דלעת</div></div>
-  <div class="mo"><img src="public/img-6.jpg" alt="טונה" loading="lazy"/><div class="mo-cap">קרפצ'יו טונה</div></div>
-  <div class="mo"><img src="public/img-2.jpg" alt="שף" loading="lazy"/><div class="mo-cap">מאחורי הקלעים</div></div>
+  <div class="mo"><img src="public/dish-burrata.jpg" alt="בורטה על סלט עגבניות" loading="lazy"/><div class="mo-cap">בורטה, עגבניות שרי ובזיליקום</div></div>
+  <div class="mo"><img src="public/chef-plating.jpg" alt="השף מצלחת באירוע" loading="lazy"/><div class="mo-cap">מאחורי הקלעים</div></div>
 </div>
 
 <!-- SOCIAL SNAP -->
