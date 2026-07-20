@@ -1407,6 +1407,82 @@ body::before{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   mix-blend-mode:multiply;opacity:.025;
 }
+
+/* ═══ טירוף: לק יוקרתי · חותם מותג · מיקרו-אינטראקציות ═══ */
+
+/* — חותם זהב עדין ברקע ההירו — */
+.hero-seal{
+  position:absolute;z-index:2;pointer-events:none;
+  top:8%;left:-6%;width:min(46vw,540px);aspect-ratio:1;
+  background:url("public/seal-gold.png") no-repeat center/contain;
+  opacity:.16;filter:drop-shadow(0 0 30px rgba(0,0,0,.4));
+  animation:sealFloat 14s ease-in-out infinite;
+}
+@keyframes sealFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(1.2deg)}}
+@media(max-width:860px){.hero-seal{width:70vw;top:auto;bottom:2%;left:-14%;opacity:.1;}}
+
+/* — סקשן חותם: הפסקה נושמת בין הסקשנים — */
+.brand-seal{
+  background:var(--cream);text-align:center;
+  padding:clamp(3.5rem,8vw,6rem) 7% clamp(3.5rem,8vw,6rem);
+  position:relative;overflow:hidden;
+}
+.brand-seal::before,.brand-seal::after{
+  content:'';position:absolute;top:50%;width:min(22%,220px);height:1px;
+  background:linear-gradient(90deg,transparent,rgba(173,138,69,.5));
+}
+.brand-seal::before{right:6%;}
+.brand-seal::after{left:6%;transform:scaleX(-1);}
+.brand-seal img{
+  width:clamp(140px,20vw,200px);height:auto;display:block;margin:0 auto 1.4rem;
+  opacity:0;transform:translateY(18px) scale(.96);transition:opacity 1s ease,transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.brand-seal.in img{opacity:1;transform:none;}
+.brand-seal p{
+  font-family:'Frank Ruhl Libre',serif;font-style:italic;
+  font-size:clamp(1.05rem,2vw,1.4rem);color:var(--text-s);
+  letter-spacing:.02em;max-width:520px;margin:0 auto;line-height:1.6;
+}
+.brand-seal .bs-kicker{
+  font-style:normal;font-size:.72rem;letter-spacing:.34em;font-weight:600;
+  color:var(--gold);margin-bottom:1.6rem;
+}
+
+/* — חותם זהב בפוטר — */
+.f-crest{width:clamp(150px,22vw,190px);height:auto;margin:0 auto 1.4rem;display:block;opacity:.95;}
+footer .f-logo{display:none;}
+
+/* — ניווט: קו זהב מונפש — */
+#mainNav a:not(.nav-cta){position:relative;}
+#mainNav a:not(.nav-cta)::after{
+  content:'';position:absolute;bottom:-4px;right:0;width:0;height:1px;
+  background:var(--gold);transition:width .32s cubic-bezier(.2,.7,.2,1);
+}
+#mainNav a:not(.nav-cta):hover::after{width:100%;}
+
+/* — כפתורים: הבזק זהב חולף — */
+.btn-p,.btn-w,.nav-cta,.dairy-btn{position:relative;overflow:hidden;}
+.btn-p::after,.btn-w::after,.nav-cta::after,.dairy-btn::after{
+  content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:skewX(-18deg);transition:left .6s ease;pointer-events:none;
+}
+.btn-p:hover::after,.btn-w:hover::after,.nav-cta:hover::after,.dairy-btn:hover::after{left:130%;}
+
+/* — תמונות: זום עדין וחימום בריחוף — */
+.mo img,.pmq-track img,.strip img,.sp img,.chef-media img{transition:transform 1.1s cubic-bezier(.2,.7,.2,1),filter .6s ease;}
+.mo:hover img,.sp:hover img,.chef-media:hover img{transform:scale(1.06);}
+.pmq-track img:hover{transform:scale(1.04);filter:saturate(1.12) brightness(1.04);}
+
+/* — כותרת ראשית: זהב עם זוהר עדין — */
+h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
+
+/* — קו זהב דק בראש סקשנים בהירים — */
+.features::before,.services::before,.chef::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.features,.services,.chef{position:relative;}
 </style>
 </head>
 <body>
@@ -1456,6 +1532,7 @@ body::before{
       <source src="public/hero.mp4" type="video/mp4">
     </video>
   </div>
+  <div class="hero-seal" aria-hidden="true"></div>
   <div class="hero-content">
     <p class="hero-label">שף פרטי לאירועים · ירושלים</p>
     <h1>חוויה<br>של<br><span class="accent">שף פרטי</span></h1>
@@ -1530,6 +1607,13 @@ body::before{
       <span class="chef-badge">בין הטעמים · ירושלים</span>
     </div>
   </div>
+</section>
+
+<!-- BRAND SEAL -->
+<section class="brand-seal rev">
+  <img src="public/seal-emblem.png" alt="חותם בין הטעמים — שף פרטי, ירושלים" loading="lazy" decoding="async">
+  <p class="bs-kicker">מטבח בוטיק · ירושלים</p>
+  <p>אנחנו לא מגישים תפריט. אנחנו יוצרים ערב שלם — טעם, אווירה, ורגעים שנשארים הרבה אחרי הביס האחרון.</p>
 </section>
 
 <!-- SERVICES -->
@@ -1751,6 +1835,7 @@ body::before{
 
 <!-- FOOTER -->
 <footer>
+  <img class="f-crest" src="public/seal-crest-gold.png" alt="בין הטעמים — שף פרטי, ירושלים" loading="lazy" decoding="async">
   <div class="f-logo">בין <span>הטעמים</span></div>
   <p class="f-info">שף פרטי לאירועים · ערב שף ואירוח<br>ירושלים והסביבה</p>
   <div class="f-social">
@@ -2460,6 +2545,8 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
     'בורטה, עגבניות שרי ובזיליקום':'Burrata, cherry tomatoes & basil',
     'מאחורי הקלעים':'Behind the scenes',
     /* social */
+    'מטבח בוטיק · ירושלים':'Boutique Kitchen · Jerusalem',
+    'אנחנו לא מגישים תפריט. אנחנו יוצרים ערב שלם — טעם, אווירה, ורגעים שנשארים הרבה אחרי הביס האחרון.':'We don’t just serve a menu. We create a whole evening — taste, atmosphere, and moments that linger long after the last bite.',
     'עקבו אחרינו':'Follow Us',
     'הכי טעים':'The tastiest',
     'ברשת':'online',
