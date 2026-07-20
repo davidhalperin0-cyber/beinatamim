@@ -1310,6 +1310,104 @@ body.menu-locked{
 }
 
 </style>
+
+<!-- ═══════════════ LUX LIGHT THEME · שנהב וזהב שמפניה ═══════════════ -->
+<style id="lux-theme">
+/* ── פלטה בהירה־יוקרתית: שנהב נקי + זהב שמפניה + דיו אספרסו ── */
+:root{
+  --cream:#FBF8F1;        /* שנהב רך, נקי ובהיר */
+  --parchment:#F4EEE1;    /* משטח כרטיס */
+  --linen:#E7DEC9;        /* קו שיער עדין */
+  --brown:#241A12;        /* אספרסו — סקשנים כהים + טקסט כהה */
+  --terra:#AD8A45;        /* זהב שמפניה — אקסנט ראשי */
+  --terra-l:#C7A85E;      /* זהב בהיר */
+  --text:#2A2019;         /* דיו אספרסו */
+  --text-s:#6F6255;       /* טקסט משני מרוכך */
+  --gold:#AD8A45;
+  --gold-l:#C7A85E;
+}
+
+html{background:#F1EADC;}
+body{
+  background:var(--cream);
+  color:var(--text);
+  box-shadow:0 0 0 1px rgba(173,138,69,.14), 0 30px 90px rgba(60,43,31,.10);
+}
+
+/* ── טיפוגרפיה מעודנת ── */
+.s-label,.sv-tag,.hero-label,.social-snap-label,.f-social-label{
+  color:var(--gold);letter-spacing:.26em;font-weight:600;
+}
+.s-title{letter-spacing:-.01em;font-weight:800;}
+.hero-sub{font-weight:300;letter-spacing:.005em;}
+
+/* ── מספרי הפיצ'רים: זהב אוורירי בקו מתאר ── */
+.f-num{
+  color:transparent;-webkit-text-stroke:1px rgba(173,138,69,.6);
+  font-size:2.7rem;font-weight:900;opacity:.9;font-family:'Frank Ruhl Libre',serif;
+}
+.f-card::before{background:var(--gold);}
+
+/* ── כרטיסים בהירים עם קו זהב ── */
+.f-card{background:#FFFDF8;border:1px solid var(--linen);}
+.f-card:hover{box-shadow:0 22px 55px rgba(60,43,31,.13);border-color:rgba(173,138,69,.4);transform:translateY(-6px);}
+.sv-sub{background:#FFFDF8;border:1px solid var(--linen);}
+.sv-sub:hover{border-color:var(--gold);background:#fff;box-shadow:0 16px 44px rgba(60,43,31,.12);}
+.step-n{background:#fff;border:1.5px solid var(--gold);color:var(--gold);}
+
+/* ── סקשן שירותים מרכזי: פאנל אספרסו עם מסגרת זהב ── */
+.sv-main{
+  background:linear-gradient(155deg,#2E2116 0%,#1C140D 100%);
+  border:1px solid rgba(173,138,69,.34);
+}
+.sv-main h3,.sv-main{color:var(--cream);}
+.sv-list li{color:rgba(251,248,241,.82);}
+
+/* ── כפתורים: זהב עם טקסט אספרסו ── */
+.btn-p{background:var(--gold);color:#231A12;font-weight:700;letter-spacing:.02em;}
+.btn-p:hover{background:var(--gold-l);color:#231A12;box-shadow:0 14px 40px rgba(173,138,69,.34);transform:translateY(-2px);}
+.lang-btn{border:1px solid rgba(173,138,69,.45);color:var(--gold);}
+.lang-btn:hover{border-color:var(--gold);color:#8a6c34;background:rgba(173,138,69,.08);}
+
+/* ── HEADER: זכוכית בהירה עם קו זהב ── */
+header{background:rgba(251,248,241,.82)!important;backdrop-filter:blur(18px) saturate(1.1);border-bottom:1px solid rgba(173,138,69,.2)!important;}
+header.scrolled{box-shadow:0 6px 34px rgba(60,43,31,.1)!important;}
+.logo{color:var(--brown)!important;}
+.logo span{color:var(--gold)!important;}
+#mainNav a:not(.nav-cta):hover{color:var(--gold);}
+
+/* ── HERO: וידאו בהיר יותר, שכבת החשכה עדינה יותר ── */
+.hero-bg::after{
+  background:linear-gradient(to top,rgba(24,16,10,.9) 0%,rgba(24,16,10,.55) 38%,rgba(24,16,10,.2) 70%,transparent 100%);
+}
+.hero-bg video{filter:saturate(1.04) contrast(1.02) brightness(1.02);}
+h1{text-shadow:0 4px 50px rgba(0,0,0,.5);letter-spacing:-.01em;}
+.hero::after{background:linear-gradient(to bottom,transparent,var(--cream));}
+
+/* ── דיוקן השף: מסגרת זהב ── */
+.chef-media::before{border-color:var(--gold);}
+.chef-badge{background:var(--brown);border:1px solid rgba(173,138,69,.4);color:var(--gold-l);}
+
+/* ── דיוויידרים בזהב ── */
+.dairy-divider,.mm-divider{background:var(--gold);}
+.dairy-section{background:#FFFDF8;border-top:1px solid var(--linen);border-bottom:1px solid var(--linen);}
+
+/* ── מרקיזה עם קווי זהב ── */
+.marquee{border-top:1px solid rgba(173,138,69,.25);border-bottom:1px solid rgba(173,138,69,.25);}
+.marquee-inner span{color:var(--gold-l);}
+
+/* ── פסי גלילה מוזהבים ── */
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:#F1EADC;}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),#8a6c34);border-radius:8px;}
+
+/* ── מרקם נייר עדין מאוד לעומק ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply;opacity:.025;
+}
+</style>
 </head>
 <body>
 <!-- shared SVG defs: gold gradient for WhatsApp icon in CTAs -->
