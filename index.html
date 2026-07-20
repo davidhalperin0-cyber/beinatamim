@@ -111,6 +111,10 @@ nav a:hover{color:var(--terra);}
   transition:filter .22s linear,transform .6s ease;
   will-change:filter,transform;
 }
+.hero-bg video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
 /* dark gradient so text is always legible */
 .hero-bg::after{
   content:'';position:absolute;inset:0;
@@ -184,6 +188,17 @@ h1 .accent{color:var(--terra-l);}
   animation:sdot 2s ease-in-out infinite;
 }
 @keyframes sdot{0%,100%{opacity:.25;transform:scaleY(.5) translateY(-6px)}50%{opacity:1;transform:scaleY(1) translateY(6px)}}
+
+/* ── LANG TOGGLE ──────────────────────────── */
+.lang-btn{
+  background:transparent;border:1px solid var(--linen);color:var(--brown);
+  font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:.78rem;letter-spacing:.08em;
+  padding:.48rem .8rem;cursor:pointer;transition:all .25s;flex-shrink:0;
+}
+.lang-btn:hover{border-color:var(--terra);color:var(--terra);}
+/* במצב אנגלית — הכותרת והלוגו בכיוון LTR */
+html[lang="en"] header{direction:ltr;}
+html[lang="en"] .logo{direction:ltr;gap:.35rem;}
 
 /* ── MARQUEE ──────────────────────────────── */
 .marquee{background:var(--brown);padding:.95rem 0;overflow:hidden;white-space:nowrap;width:100%;max-width:100%;box-sizing:border-box;}
@@ -788,6 +803,10 @@ footer{
 .mm-oq:hover,.mm-oq:focus-visible{background:var(--terra);border-color:var(--terra);outline:none;}
 .mm-oq:disabled{opacity:.35;cursor:default;}
 .mm-oq-val{min-width:1.15rem;text-align:center;font-size:.82rem;font-weight:700;color:var(--terra-l);}
+/* סלטים — בורר שני גדלים */
+.mm-row-meta--dual{display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;justify-content:flex-end;}
+.mm-oq-size{display:flex;flex-direction:column;align-items:center;gap:.28rem;}
+.mm-oq-size-label{font-size:.64rem;letter-spacing:.02em;color:rgba(217,204,174,.6);white-space:nowrap;}
 .mm-cart{
   margin-top:1.5rem;padding:1.1rem 1rem 1.2rem;
   background:rgba(0,0,0,.14);border-radius:4px;
@@ -1319,6 +1338,7 @@ body.menu-locked{
 <header id="hdr">
   <div class="hdr-actions">
     <button class="menu-trigger" id="menuTrigger">לתפריט המלא</button>
+    <button class="lang-btn" id="langBtn" aria-label="Switch language / החלפת שפה">EN</button>
     <button class="ham-btn" id="hamBtn" aria-label="תפריט ניווט" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -1335,7 +1355,11 @@ body.menu-locked{
 
 <!-- HERO -->
 <section class="hero" data-blur-target>
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="public/chef-hero.jpg" aria-hidden="true">
+      <source src="public/hero.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="hero-content">
     <p class="hero-label">אירועים בשריים · שף פרטי · ירושלים</p>
     <h1>לבשל<br>זה<br><span class="accent">מאהבה</span></h1>
@@ -1859,7 +1883,7 @@ tick();
 
     <div class="mm-cart" id="menuCart">
       <div class="mm-cart-title">בונים הזמנה מהתפריט</div>
-      <p class="mm-cart-hint">ליד <strong>כל</strong> מנה בתפריט יש <strong>+</strong> / <strong>−</strong> — בוחרים כמויות ואז שולחים את הרשימה בוואטסאפ (במנות לפי גודל מופיע מחיר לפי התפריט).</p>
+      <p class="mm-cart-hint">ליד כל מנה בתפריט יש + / − — בסלטים בוחרים גם גודל (250/500 מ״ל). בסיום שולחים את הרשימה בוואטסאפ.</p>
       <div class="mm-cart-summary" id="menuCartSummary" hidden>
         <ul class="mm-cart-lines" id="menuCartLines" aria-label="פריטים בסל"></ul>
         <div class="mm-cart-total" id="menuCartTotal" hidden></div>
@@ -2166,8 +2190,66 @@ tick();
     row.appendChild(meta);
 
     lineRefs.push({ id:id, name:name, priceText:priceText, qtySpan:qtySpan, minus:minus, plus:plus });
-    plus.addEventListener('click', function(){ bump(id, name, priceText, +1); });
-    minus.addEventListener('click', function(){ bump(id, name, priceText, -1); });
+    var nmEl = row.querySelector('.mm-name');
+    function liveName(){ return nmEl ? nmEl.innerText.replace(/\s+/g,' ').trim() : name; }
+    plus.addEventListener('click', function(){ bump(id, liveName(), priceText, +1); });
+    minus.addEventListener('click', function(){ bump(id, liveName(), priceText, -1); });
+    syncRowDisplays();
+    renderSummary();
+  }
+
+  /* סלטים בשני גדלים — כפתורי כמות נפרדים לכל גודל */
+  var SALAD_SIZES = [
+    { label:'250 מ״ל', price:'₪20' },
+    { label:'500 מ״ל', price:'₪38' }
+  ];
+  function attachQtyDual(row, section, nameEl){
+    if(row.getAttribute('data-menu-cart') === '1') return;
+    row.setAttribute('data-menu-cart','1');
+    var meta = document.createElement('span');
+    meta.className = 'mm-row-meta mm-row-meta--dual';
+    SALAD_SIZES.forEach(function(sz){
+      var baseName = nameEl.innerText.replace(/\s+/g,' ').trim();
+      var priceText = sz.label + ' — ' + sz.price;
+      var id = makeLineId(section, baseName + ' ' + sz.label, priceText);
+      var group = document.createElement('span');
+      group.className = 'mm-oq-size';
+      var lab = document.createElement('span');
+      lab.className = 'mm-oq-size-label';
+      var labSize = document.createElement('span');
+      labSize.textContent = sz.label;
+      lab.appendChild(labSize);
+      lab.appendChild(document.createTextNode(' · ' + sz.price));
+      var qtySpan = document.createElement('span');
+      qtySpan.className = 'mm-oq-val';
+      qtySpan.textContent = '0';
+      qtySpan.setAttribute('aria-label','כמות');
+      var minus = document.createElement('button');
+      minus.type = 'button';
+      minus.className = 'mm-oq mm-oq-minus';
+      minus.setAttribute('aria-label','הפחת כמות');
+      minus.textContent = '−';
+      var plus = document.createElement('button');
+      plus.type = 'button';
+      plus.className = 'mm-oq mm-oq-plus';
+      plus.setAttribute('aria-label','הוסף כמות');
+      plus.textContent = '+';
+      var act = document.createElement('span');
+      act.className = 'mm-order-actions';
+      act.appendChild(minus);
+      act.appendChild(qtySpan);
+      act.appendChild(plus);
+      group.appendChild(lab);
+      group.appendChild(act);
+      meta.appendChild(group);
+      lineRefs.push({ id:id, name:baseName, priceText:priceText, qtySpan:qtySpan, minus:minus, plus:plus });
+      function liveName(){
+        return nameEl.innerText.replace(/\s+/g,' ').trim() + ' (' + labSize.textContent + ')';
+      }
+      plus.addEventListener('click', function(){ bump(id, liveName(), priceText, +1); });
+      minus.addEventListener('click', function(){ bump(id, liveName(), priceText, -1); });
+    });
+    row.appendChild(meta);
     syncRowDisplays();
     renderSummary();
   }
@@ -2183,6 +2265,11 @@ tick();
     if(!nameEl) return;
     var name = nameEl.innerText.replace(/\s+/g,' ').trim();
     if(!name) return;
+    /* סלטים ללא מחיר בשורה — שני גדלים לבחירה */
+    if(section.indexOf('סלטים') !== -1 && !row.querySelector('.mm-price')){
+      attachQtyDual(row, section, nameEl);
+      return;
+    }
     var priceText = inferPriceText(section, lastSub, saladHint, row);
     var id = makeLineId(section, name, priceText);
     attachQty(row, id, name, priceText);
@@ -2776,6 +2863,274 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
 
 <!-- Section progress dots (desktop) -->
 <div id="bt-progress" aria-hidden="true"></div>
+
+<!-- ── Language toggle: Hebrew ⇄ English ── -->
+<script>
+(function(){
+  var DICT = {
+    /* header + nav */
+    'לתפריט המלא':'Full Menu',
+    'תפריטים':'Menus',
+    'איך מזמינים':'How to Order',
+    'שירותים':'Services',
+    'השף':'The Chef',
+    'הזמנה בוואטסאפ':'Order on WhatsApp',
+    'בין':'Bein',
+    'הטעמים':"HaTa'amim",
+    /* hero */
+    'אירועים בשריים · שף פרטי · ירושלים':'Meat Events · Private Chef · Jerusalem',
+    'לבשל':'Cooking',
+    'זה':'is',
+    'מאהבה':'love',
+    'אירועים בשריים מוקפדים, ערבי שף בבית הלקוח, ושבת חתן. תפריט שנבנה לאירוע, חומרי גלם מקומיים וביצוע בוטיק. שירות שבת זמין גם בנוסף.':'Refined meat events, chef evenings at your home, and Shabbat Chatan. A menu built for the event, local ingredients and boutique execution. Shabbat catering also available.',
+    'מטבח שמחבר חומרי גלם, אנשים ורגעים':'A kitchen that connects ingredients, people and moments',
+    'לתיאום אירוע':'Book an Event',
+    'לשירותים ↓':'Services ↓',
+    /* marquee */
+    'אירועים בשריים':'Meat Events',
+    'ערב שף בבית הלקוח':"Chef's Table at Home",
+    'שבת חתן':'Shabbat Chatan',
+    'ימי הולדת ומפגשים':'Birthdays & Gatherings',
+    'אירועים חלביים':'Dairy Events',
+    'אוכל מוכן לשבת':'Ready-made Shabbat Food',
+    'ייעוץ קולינרי':'Culinary Consulting',
+    'חומרי גלם מקומיים':'Local Ingredients',
+    /* features */
+    'למה בין הטעמים':"Why Bein HaTa'amim",
+    'אירוע שזוכרים. ביצוע שניכר.':'An event to remember. Execution that shows.',
+    'תפריט שנבנה לאירוע שלכם':'A menu built for your event',
+    'כל אירוע מקבל תפריט בהתאמה אישית — לסגנון, לאופי האורחים ולתקציב.':'Every event gets a custom menu — for the style, the guests and the budget.',
+    'תפריט מותאם. ציפיות שמובנות. אורחים שמרוצים.':'A tailored menu. Clear expectations. Happy guests.',
+    'בשר שעובד בכבוד':'Meat treated with respect',
+    'חומרי גלם מובחרים מגידול מקומי, חיתוכי בשר נכונים וביצוע מדויק שמכבד כל מנה.':'Select locally-raised ingredients, proper cuts and precise execution that honors every dish.',
+    'חומרי גלם איכותיים. בישול בוטיק. תוצאה שמדברת בעד עצמה.':'Quality ingredients. Boutique cooking. Results that speak for themselves.',
+    'שקט מארגן ולוגיסטי':'Organizational peace of mind',
+    'סדר, ניקיון והקפדה על זמנים — כך שהמארח יוכל להיות עם האורחים, לא במטבח.':'Order, cleanliness and punctuality — so the host can be with the guests, not in the kitchen.',
+    'אנחנו דואגים לסדר. אתם נהנים מהאירוע.':'We handle the logistics. You enjoy the event.',
+    /* how */
+    'תהליך הזמנה':'Ordering Process',
+    'ארבעה שלבים לאירוע מסודר':'Four steps to a well-run event',
+    'וואטסאפ':'WhatsApp',
+    'מספרים על האירוע — תאריך, כמות סועדים, אופי האירוח, רעיונות מנחים.':'Tell us about the event — date, number of guests, hosting style, guiding ideas.',
+    'בונים תפריט':'Build the Menu',
+    'מציעים תפריט בשרי מותאם או בונים יחד מאפס. שקיפות מלאה במחיר.':'We propose a tailored meat menu or build one together from scratch. Full price transparency.',
+    'מבצעים':'We Cook',
+    'בישול ביום האירוע, הגעה למיקום או איסוף — לפי מה שמתאים לכם.':'Cooking on the day of the event, on-site or pickup — whatever suits you.',
+    'אירוע מושלם':'A Perfect Event',
+    'אתם עם האורחים. אנחנו דואגים לכל מה שקורה בצלחת.':"You're with your guests. We take care of everything on the plate.",
+    /* strip */
+    'חומרי גלם.':'Ingredients.',
+    'לא פשרות.':'No compromises.',
+    'כל מנה בנויה מבסיס של חומרי גלם איכותיים גידול מקומי, עיבוד מדויק, תוצאה שמדברת בעד עצמה.':'Every dish is built on quality, locally-grown ingredients — precise work, results that speak for themselves.',
+    /* chef */
+    'מי מאחורי הסירים':'Meet the Chef',
+    'נעים להכיר — קובי':'Nice to meet you — Kobi',
+    'שף פרטי שמביא את המטבח המקצועי עד אליכם. קובי מלווה אירועים בשריים, ערבי שף ושבתות — מהשיחה הראשונה על התפריט ועד הצלחת האחרונה שיוצאת למסוב.':'A private chef who brings the professional kitchen to you. Kobi accompanies meat events, chef evenings and Shabbat dinners — from the first conversation about the menu to the last plate served.',
+    'כל אירוע מתחיל בהקשבה: מה אוהבים, מי האורחים, איזו חוויה רוצים ליצור. משם נבנה תפריט אישי — חומרי גלם מקומיים, עבודת יד, והגשה שעושה כבוד לשולחן שלכם.':'Every event starts with listening: what you love, who the guests are, what experience you want to create. From there a personal menu is built — local ingredients, handmade, with plating that honors your table.',
+    '"מטבח שמחבר חומרי גלם, אנשים ורגעים"':'"A kitchen that connects ingredients, people and moments"',
+    'דברו איתי על האירוע שלכם':'Talk to me about your event',
+    'בין הטעמים · ירושלים':"Bein HaTa'amim · Jerusalem",
+    /* services */
+    'כל השירותים':'All Services',
+    'אירועים בשריים בלב, וגם שבת':'Meat events at heart — and Shabbat too',
+    'השירות המרכזי':'The Main Service',
+    '🥩 אירועים בשריים בהתאמה':'🥩 Custom Meat Events',
+    'תפריט בשרי מוקפד לאירוע שלכם — בבית, בגינה או באולם. מנות ראשונות, סלטים, עיקריות וקינוח. הקפדה על חומרי גלם, חיתוכים וביצוע.':'A refined meat menu for your event — at home, in the garden or at a venue. Starters, salads, mains and dessert. Care in ingredients, cuts and execution.',
+    'שבת חתן ושבתות אירוח':'Shabbat Chatan & hosted Shabbat meals',
+    'ימי הולדת, יום שישי משפחתי, מפגשי חברים':"Birthdays, family Fridays, friends' gatherings",
+    'תפריט מותאם אישית · תקציב שקוף':'Personalized menu · Transparent budget',
+    '🍗 אוכל מוכן לשבת':'🍗 Ready-made Shabbat Food',
+    'חבילות שבת ותפריט שבועי — איסוף עצמי או משלוח עד הבית. הזמנה פשוטה בוואטסאפ.':'Shabbat packages and a weekly menu — self pickup or home delivery. Easy WhatsApp ordering.',
+    '🧀 אירועים חלביים':'🧀 Dairy Events',
+    'קו חלבי ים-תיכוני־איטלקי לאירוח: ארוחות בוקר, פסטות, ריזוטו, פיצות ודגים.':'A Mediterranean-Italian dairy line for hosting: breakfasts, pastas, risotto, pizzas and fish.',
+    '💡 ייעוץ קולינרי':'💡 Culinary Consulting',
+    'ליווי מקצועי לעסקי מזון: הקמה, ניתוח עסקי ובניית קו אוכל מותאם.':'Professional guidance for food businesses: setup, business analysis and building a tailored food line.',
+    /* dairy */
+    '🧀 עכשיו גם אירוח חלבי בהתאמה אישית':'🧀 Now also personalized dairy hosting',
+    'בנוסף לאירועים הבשריים, אנו מציעים שירות אירוח חלבי מקצועי בבניית תפריט אישי המותאם לאופי האירוע, לסגנון האירוח ולרמת החוויה הרצויה.':'Alongside our meat events, we offer professional dairy hosting with a personal menu tailored to the nature of the event, the hosting style and the desired experience.',
+    'הקונספט הקולינרי כולל ארוחות בוקר מוקפדות לצד תפריט איטלקי־ים תיכוני עשיר עם פסטות, ריזוטו, פיצות ודגים – תוך הקפדה על איכות חומרי גלם, דיוק בביצוע והגשה אלגנטית.':'The culinary concept includes refined breakfasts alongside a rich Italian-Mediterranean menu of pastas, risotto, pizzas and fish — with care for ingredient quality, precise execution and elegant plating.',
+    'האירוח נבנה בהתאמה מלאה ללקוח – ללא תפריט קבוע.':'Hosting is built fully around the client — no fixed menu.',
+    'לתיאום תפריט חלבי מותאם אישית':'Book a personalized dairy menu',
+    /* split panels */
+    'אירוע · אירוח · חג':'Events · Hosting · Holidays',
+    'שולחן שמחזיק':'A table that carries',
+    'סעודה שלמה':'a full feast',
+    'מנות שנבנו לאירוע — עיקריות בשריות, תוספות וסלטים שמרכיבים ארוחה שלמה ומרשימה.':'Dishes built for the event — meat mains, sides and salads that make a complete, impressive meal.',
+    'לשירותים →':'Services →',
+    'חומרי גלם · אירועים':'Ingredients · Events',
+    'חשיבה קולינרית':'Culinary thinking',
+    'בכל מנה':'in every dish',
+    'אנחנו עובדים עם חומרי גלם איכותיים ומקומיים, עם תשומת לב לכל פרט בצלחת.':'We work with quality local ingredients, with attention to every detail on the plate.',
+    'על המטבח →':'About the kitchen →',
+    /* quote */
+    '"אוכל שנבנה לאירוע — לטעמים שזוכרים, ולמארחים שרוצים להיות עם האורחים."':'"Food built for the event — for flavors you remember, and hosts who want to be with their guests."',
+    'בין הטעמים · מטבח בוטיק ירושלמי':"Bein HaTa'amim · Jerusalem boutique kitchen",
+    /* testimonials */
+    'לקוחות מספרים':'Client Stories',
+    'מה אומרים עלינו':'What people say about us',
+    /* mosaic */
+    'חלות שבת — נאפות אצלנו':'Shabbat challot — baked in-house',
+    'טרטר טונה, מנגו ואבוקדו':'Tuna tartare, mango & avocado',
+    'שורט ריב ופירה דלעת':'Short rib & pumpkin purée',
+    'בורטה, עגבניות שרי ובזיליקום':'Burrata, cherry tomatoes & basil',
+    'מאחורי הקלעים':'Behind the scenes',
+    /* social */
+    'עקבו אחרינו':'Follow Us',
+    'הכי טעים':'The tastiest',
+    'ברשת':'online',
+    'מתכונים, הצצות למטבח, ורגעים שמגיעים מהלב':'Recipes, kitchen glimpses, and moments from the heart',
+    /* cta */
+    'מתכננים אירוע?':'Planning an event?',
+    'בואו נדבר':"Let's talk",
+    'על האירוע שלכם':'about your event',
+    'שלחו הודעה בוואטסאפ עם תאריך, כמות סועדים ואופי האירוח — נחזור עם הצעת תפריט.':"Send a WhatsApp message with the date, number of guests and hosting style — we'll get back to you with a menu proposal.",
+    'לתיאום אירוע בוואטסאפ':'Book an event on WhatsApp',
+    /* info bar */
+    'מיקום':'Location',
+    'רחוב הרכבת 49 · ירושלים':'49 HaRakevet St · Jerusalem',
+    'איסוף עצמי זמין':'Self pickup available',
+    'הזמנות':'Orders',
+    'הזמנות בהודעת וואטסאפ':'Order by WhatsApp message',
+    'ניתן לבנות תפריט בהתאמה אישית':'Custom menus available',
+    'כשרות':'Kashrut',
+    'כל המוצרים כשרים למהדרין':'All products are strictly kosher (mehadrin)',
+    /* footer */
+    'שף פרטי לאירועים בשריים · אירוח ושבת':'Private chef for meat events · Hosting & Shabbat',
+    'ירושלים · הרכבת 49':'Jerusalem · HaRakevet 49',
+    '© 2025 בין הטעמים':"© 2025 Bein HaTa'amim",
+    /* ── menu modal ── */
+    'התפריט שלנו':'Our Menu',
+    'קייטרינג אוכל ביתי לשבת':'Homestyle Shabbat catering',
+    'הכל טרי | חומרי גלם איכותיים | מטבח בשרי | עלים גוש קטיף':'All fresh | Quality ingredients | Meat kitchen | Gush Katif greens',
+    'סלטים':'Salads',
+    '250 מ״ל — ₪20':'250 ml — ₪20',
+    '500 מ״ל — ₪38':'500 ml — ₪38',
+    '250 מ״ל':'250 ml',
+    '500 מ״ל':'500 ml',
+    'טחינה ביתית / ירוקה':'Homemade / green tahini',
+    'סלט כרוב לבן':'White cabbage salad',
+    'קולסלאו':'Coleslaw',
+    'חציל במיונז':'Eggplant in mayo',
+    'תירס מיונז שמיר':'Corn, mayo & dill',
+    'מלפפון בשמיר':'Cucumber & dill',
+    'פרוסות חציל מטוגן':'Fried eggplant slices',
+    'סלט עגבניות':'Tomato salad',
+    'גרגרי חומוס ירוק':'Green chickpea salad',
+    'סלט פלפל קלוי חריף':'Spicy roasted pepper salad',
+    'סחוג ביתי':'Homemade schug',
+    'סלט טונה':'Tuna salad',
+    'טפנד זיתים':'Olive tapenade',
+    'סלט ביצים קרמי':'Creamy egg salad',
+    'שום קונפי':'Garlic confit',
+    'מטבוחה ביתית':'Homemade matbucha',
+    'טפנד ארטישוק':'Artichoke tapenade',
+    'עגבניות שרי קונפי':'Cherry tomato confit',
+    'כבד קצוץ':'Chopped liver',
+    '(150 מ״ל)':'(150 ml)',
+    '(200 מ״ל)':'(200 ml)',
+    '(250 מ״ל)':'(250 ml)',
+    '(500 מ״ל)':'(500 ml)',
+    'מרקים':'Soups',
+    'מרק אפונה / עדשים':'Pea / lentil soup',
+    'קובה חמוסטה / מרק עוף':'Kubbeh hamusta / chicken soup',
+    'דגים לשבת':'Fish for Shabbat',
+    'דג לבן':'White fish',
+    'סלמון':'Salmon',
+    'דניס / בס / סלמון טרי':'Sea bream / bass / fresh salmon',
+    'רטבים לבחירה:':'Choice of sauces:',
+    "חריימה פיקנטי | שמן זית לימון ועשבי תיבול | חרדל דיז'ון, סילאן ושמן זית":"Spicy chraime | Olive oil, lemon & herbs | Dijon mustard, silan & olive oil",
+    'עופות וקציצות':'Poultry & Meatballs',
+    'עוף בזעתר ירושלמי':"Chicken in Jerusalem za'atar",
+    '(2 יחידות)':'(2 pieces)',
+    'חזה עוף על הגריל':'Grilled chicken breast',
+    'שניצלונים':'Schnitzel bites',
+    '(300 גרם)':'(300 g)',
+    'קציצות ירק':'Vegetable patties',
+    '(4 יחידות)':'(4 pieces)',
+    'קציצות בשר ברוטב אדום':'Meatballs in red sauce',
+    '(מנה – 4 יחידות)':'(portion – 4 pieces)',
+    'נתח אסאדו':'Asado',
+    'בבישול ארוך, רך ומתפרק':'Slow-cooked, soft and falling apart',
+    '₪480 לק״ג':'₪480 per kg',
+    'תוספות חמות':'Hot Sides',
+    'ליטר — ₪45':'1 liter — ₪45',
+    'אורז לבן':'White rice',
+    'תפוחי אדמה בעשבי תיבול':'Herbed potatoes',
+    'ספגטי אדום ביתי':'Homestyle red spaghetti',
+    'שעועית ירוקה מוקפצת':'Sautéed green beans',
+    "מג'דרה ביתית":'Homemade mujadara',
+    'קוגעל תפוחי אדמה':'Potato kugel',
+    '(תבנית לשולחן שבת)':'(tray for the Shabbat table)',
+    "חמין / צ'ולנט":'Hamin / cholent',
+    '(½ קילו)':'(½ kg)',
+    '(קילו)':'(1 kg)',
+    'עוגת סולת תפוזים':'Orange semolina cake',
+    '(רכה ועסיסית)':'(soft & juicy)',
+    'חלה לשבת':'Shabbat challah',
+    'חבילת שבת':'Shabbat Package',
+    'מתאים ל-3–4 סועדים':'Serves 3–4',
+    'דג לבן לבחירה (4 מנות)':'White fish of choice (4 portions)',
+    'אסאדו (½–1 קילו)':'Asado (½–1 kg)',
+    "חמין / צ'ולנט (1 ק״ג)":'Hamin / cholent (1 kg)',
+    'עוף לשבת (4 יחידות)':'Shabbat chicken (4 pieces)',
+    'קציצות בשר (6 יחידות)':'Meatballs (6 pieces)',
+    'שניצלונים (300 גרם)':'Schnitzel bites (300 g)',
+    'תפוחי אדמה בתוספת תיבול (1 ליטר)':'Seasoned potatoes (1 liter)',
+    "מג'דרה (1 ליטר)":'Mujadara (1 liter)',
+    '5 סוגי סלטים לבחירה (250 מ״ל כל אחד)':'5 salads of choice (250 ml each)',
+    '2 חלות':'2 challot',
+    'הוספה לסל: חבילה שלמה':'Add to cart: full package',
+    'אירועים קטנים ואירוח':'Small Events & Hosting',
+    'הזמנות לשבת — עד יום חמישי 10:00 בבוקר':'Shabbat orders — by Thursday 10:00 AM',
+    'בונים הזמנה מהתפריט':'Build your order from the menu',
+    'ליד כל מנה בתפריט יש + / − — בסלטים בוחרים גם גודל (250/500 מ״ל). בסיום שולחים את הרשימה בוואטסאפ.':'Every item has + / − buttons — for salads pick a size too (250/500 ml). When done, send your list on WhatsApp.',
+    'שלח הזמנה בוואטסאפ':'Send order on WhatsApp',
+    'נקו סל':'Clear cart',
+    'קובי 054-281-1294':'Kobi 054-281-1294',
+    'משלוחים חינם מעל ₪200 | איסוף עצמי | הרכבת 49':'Free delivery over ₪200 | Self pickup | HaRakevet 49',
+    '📞 הזמינו בוואטסאפ':'📞 Order on WhatsApp',
+    '📍 הרכבת 49, ירושלים':'📍 49 HaRakevet St, Jerusalem'
+  };
+  function norm(s){ return s.replace(/ /g,' ').replace(/\s+/g,' ').trim(); }
+  function applyEnglish(){
+    document.documentElement.setAttribute('lang','en');
+    document.documentElement.setAttribute('dir','ltr');
+    /* h1 מפוצל לאותיות ע"י אנימציית GSAP — מוחלף ישירות */
+    var h1 = document.querySelector('.hero h1');
+    if(h1) h1.innerHTML = 'Cooking<br>is<br><span class="accent">love</span>';
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var nodes = [];
+    while(w.nextNode()){
+      var p = w.currentNode.parentNode;
+      if(!p) continue;
+      var tag = p.nodeName;
+      if(tag === 'SCRIPT' || tag === 'STYLE') continue;
+      nodes.push(w.currentNode);
+    }
+    nodes.forEach(function(n){
+      var key = norm(n.nodeValue || '');
+      if(key && Object.prototype.hasOwnProperty.call(DICT, key)){
+        var lead = (n.nodeValue.match(/^\s*/) || [''])[0];
+        var trail = (n.nodeValue.match(/\s*$/) || [''])[0];
+        n.nodeValue = lead + DICT[key] + trail;
+      }
+    });
+    var btn = document.getElementById('langBtn');
+    if(btn) btn.textContent = 'עברית';
+  }
+  var saved = null;
+  try{ saved = localStorage.getItem('bt-lang'); }catch(e){}
+  if(saved === 'en') applyEnglish();
+  var btn = document.getElementById('langBtn');
+  if(btn){
+    btn.addEventListener('click', function(){
+      var isEn = document.documentElement.getAttribute('lang') === 'en';
+      try{ localStorage.setItem('bt-lang', isEn ? 'he' : 'en'); }catch(e){}
+      if(isEn){ location.reload(); } else { applyEnglish(); }
+    });
+  }
+})();
+</script>
 
 <!-- ── Enhancement layer: Lenis + GSAP (additive, non-invasive) ── -->
 <script>
