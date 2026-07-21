@@ -1415,10 +1415,8 @@ body::before{
   position:absolute;z-index:2;pointer-events:none;
   top:8%;left:-6%;width:min(46vw,540px);aspect-ratio:1;
   background:url("public/seal-gold.png") no-repeat center/contain;
-  opacity:.16;filter:drop-shadow(0 0 30px rgba(0,0,0,.4));
-  animation:sealFloat 14s ease-in-out infinite;
+  opacity:.14;filter:drop-shadow(0 0 30px rgba(0,0,0,.4));
 }
-@keyframes sealFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(1.2deg)}}
 @media(max-width:860px){.hero-seal{width:70vw;top:auto;bottom:2%;left:-14%;opacity:.1;}}
 
 /* — סקשן חותם: הפסקה נושמת בין הסקשנים — */
@@ -1483,6 +1481,13 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
 .features,.services,.chef{position:relative;}
+
+/* — info-bar: קו זהב עדין במקום אימוג'י — */
+.info-item .i-icon{
+  display:block;width:26px;height:1px;margin:0 auto 1.1rem;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.info-item .i-icon::before{content:none;}
 </style>
 </head>
 <body>
@@ -1560,9 +1565,9 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
     <h2 class="s-title">אירוע שזוכרים. ביצוע שניכר.</h2>
   </div>
   <div class="f-grid">
-    <div class="f-card rev"><p class="f-num">01</p><h3 class="f-ttl">תפריט שנבנה לאירוע שלכם</h3><p class="f-desc">כל אירוע מקבל תפריט בהתאמה אישית — לסגנון, לאופי האורחים ולתקציב.</p><p class="f-punch">תפריט מותאם. ציפיות שמובנות. אורחים שמרוצים.</p></div>
-    <div class="f-card rev"><p class="f-num">02</p><h3 class="f-ttl">בשר שעובד בכבוד</h3><p class="f-desc">חומרי גלם מובחרים מגידול מקומי, חיתוכי בשר נכונים וביצוע מדויק שמכבד כל מנה.</p><p class="f-punch">חומרי גלם איכותיים. בישול בוטיק. תוצאה שמדברת בעד עצמה.</p></div>
-    <div class="f-card rev"><p class="f-num">03</p><h3 class="f-ttl">שקט מארגן ולוגיסטי</h3><p class="f-desc">סדר, ניקיון והקפדה על זמנים — כך שהמארח יוכל להיות עם האורחים, לא במטבח.</p><p class="f-punch">אנחנו דואגים לסדר. אתם נהנים מהאירוע.</p></div>
+    <div class="f-card rev"><p class="f-num">01</p><h3 class="f-ttl">תפריט שנתפר לאירוע</h3><p class="f-desc">יושבים, מדברים על מה שאתם אוהבים ומי האורחים, ומשם נבנה התפריט — בשרי, חלבי או שילוב, לפי האופי והתקציב.</p></div>
+    <div class="f-card rev"><p class="f-num">02</p><h3 class="f-ttl">בשר שעובד בכבוד</h3><p class="f-desc">חיתוכים נכונים, חומרי גלם מקומיים, ובישול שנותן לכל נתח בדיוק את הזמן שהוא צריך.</p></div>
+    <div class="f-card rev"><p class="f-num">03</p><h3 class="f-ttl">אתם אורחים בערב שלכם</h3><p class="f-desc">מגיעים, מבשלים, מגישים ומשאירים מטבח נקי. אתם עם האנשים — לא מול הכיריים.</p></div>
   </div>
 </section>
 
@@ -1613,7 +1618,7 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
 <section class="brand-seal rev">
   <img src="public/seal-emblem.png" alt="חותם בין הטעמים — שף פרטי, ירושלים" loading="lazy" decoding="async">
   <p class="bs-kicker">מטבח בוטיק · ירושלים</p>
-  <p>אנחנו לא מגישים תפריט. אנחנו יוצרים ערב שלם — טעם, אווירה, ורגעים שנשארים הרבה אחרי הביס האחרון.</p>
+  <p>הכל מתחיל בשיחה על מה שאתם אוהבים, ונגמר כשהאורחים כבר שואלים מתי הפעם הבאה.</p>
 </section>
 
 <!-- SERVICES -->
@@ -1645,7 +1650,7 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
 <!-- DAIRY SECTION -->
 <section class="dairy-section">
   <div class="dairy-inner rev">
-    <h2 class="dairy-title">🧀 עכשיו גם אירוח חלבי בהתאמה אישית</h2>
+    <h2 class="dairy-title">גם אירוח חלבי — באותה רמה</h2>
     <div class="dairy-divider"></div>
     <p class="dairy-body">
       בנוסף לאירועים הבשריים, אנו מציעים שירות אירוח חלבי מקצועי בבניית תפריט אישי המותאם לאופי האירוע, לסגנון האירוח ולרמת החוויה הרצויה.
@@ -1826,9 +1831,9 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
 <!-- INFO BAR -->
 <div class="info-bar">
   <div class="info-grid">
-    <div class="info-item rev"><span class="i-icon">📍</span><h4>אזור פעילות</h4><p>ירושלים והסביבה<br>מגיעים עד אליכם</p></div>
-    <div class="info-item rev"><span class="i-icon">📱</span><h4>תיאום אירוע</h4><p>בהודעת וואטסאפ<br>תפריט אישי לכל אירוע</p></div>
-    <div class="info-item rev"><span class="i-icon">✡️</span><h4>כשרות</h4><p>אפשרות לאירוע כשר למהדרין</p></div>
+    <div class="info-item rev"><span class="i-icon" aria-hidden="true"></span><h4>אזור פעילות</h4><p>ירושלים והסביבה<br>מגיעים עד אליכם</p></div>
+    <div class="info-item rev"><span class="i-icon" aria-hidden="true"></span><h4>תיאום אירוע</h4><p>בהודעת וואטסאפ<br>תפריט אישי לכל אירוע</p></div>
+    <div class="info-item rev"><span class="i-icon" aria-hidden="true"></span><h4>כשרות</h4><p>אפשרות לאירוע כשר למהדרין</p></div>
 
   </div>
 </div>
@@ -2468,14 +2473,14 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
     /* features */
     'למה בין הטעמים':"Why Bein HaTa'amim",
     'אירוע שזוכרים. ביצוע שניכר.':'An event to remember. Execution that shows.',
-    'תפריט שנבנה לאירוע שלכם':'A menu built for your event',
-    'כל אירוע מקבל תפריט בהתאמה אישית — לסגנון, לאופי האורחים ולתקציב.':'Every event gets a custom menu — for the style, the guests and the budget.',
+    'תפריט שנתפר לאירוע':'A menu tailored to your event',
+    'יושבים, מדברים על מה שאתם אוהבים ומי האורחים, ומשם נבנה התפריט — בשרי, חלבי או שילוב, לפי האופי והתקציב.':'We sit down, talk about what you love and who your guests are, and build the menu from there — meat, dairy or a mix, to suit the occasion and budget.',
     'תפריט מותאם. ציפיות שמובנות. אורחים שמרוצים.':'A tailored menu. Clear expectations. Happy guests.',
     'בשר שעובד בכבוד':'Meat treated with respect',
-    'חומרי גלם מובחרים מגידול מקומי, חיתוכי בשר נכונים וביצוע מדויק שמכבד כל מנה.':'Select locally-raised ingredients, proper cuts and precise execution that honors every dish.',
+    'חיתוכים נכונים, חומרי גלם מקומיים, ובישול שנותן לכל נתח בדיוק את הזמן שהוא צריך.':'Proper cuts, local ingredients, and cooking that gives every cut exactly the time it needs.',
     'חומרי גלם איכותיים. בישול בוטיק. תוצאה שמדברת בעד עצמה.':'Quality ingredients. Boutique cooking. Results that speak for themselves.',
-    'שקט מארגן ולוגיסטי':'Organizational peace of mind',
-    'סדר, ניקיון והקפדה על זמנים — כך שהמארח יוכל להיות עם האורחים, לא במטבח.':'Order, cleanliness and punctuality — so the host can be with the guests, not in the kitchen.',
+    'אתם אורחים בערב שלכם':'You’re a guest at your own evening',
+    'מגיעים, מבשלים, מגישים ומשאירים מטבח נקי. אתם עם האנשים — לא מול הכיריים.':'We arrive, cook, serve and leave a clean kitchen. You’re with your people — not at the stove.',
     'אנחנו דואגים לסדר. אתם נהנים מהאירוע.':'We handle the logistics. You enjoy the event.',
     /* how */
     'תהליך הזמנה':'Ordering Process',
@@ -2516,7 +2521,7 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
     '💡 ייעוץ קולינרי':'💡 Culinary Consulting',
     'ליווי מקצועי לעסקי מזון: הקמה, ניתוח עסקי ובניית קו אוכל מותאם.':'Professional guidance for food businesses: setup, business analysis and building a tailored food line.',
     /* dairy */
-    '🧀 עכשיו גם אירוח חלבי בהתאמה אישית':'🧀 Now also personalized dairy hosting',
+    'גם אירוח חלבי — באותה רמה':'Dairy hosting too — same standard',
     'בנוסף לאירועים הבשריים, אנו מציעים שירות אירוח חלבי מקצועי בבניית תפריט אישי המותאם לאופי האירוע, לסגנון האירוח ולרמת החוויה הרצויה.':'Alongside our meat events, we offer professional dairy hosting with a personal menu tailored to the nature of the event, the hosting style and the desired experience.',
     'הקונספט הקולינרי כולל ארוחות בוקר מוקפדות לצד תפריט איטלקי־ים תיכוני עשיר עם פסטות, ריזוטו, פיצות ודגים – תוך הקפדה על איכות חומרי גלם, דיוק בביצוע והגשה אלגנטית.':'The culinary concept includes refined breakfasts alongside a rich Italian-Mediterranean menu of pastas, risotto, pizzas and fish — with care for ingredient quality, precise execution and elegant plating.',
     'האירוח נבנה בהתאמה מלאה ללקוח – ללא תפריט קבוע.':'Hosting is built fully around the client — no fixed menu.',
@@ -2546,7 +2551,7 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
     'מאחורי הקלעים':'Behind the scenes',
     /* social */
     'מטבח בוטיק · ירושלים':'Boutique Kitchen · Jerusalem',
-    'אנחנו לא מגישים תפריט. אנחנו יוצרים ערב שלם — טעם, אווירה, ורגעים שנשארים הרבה אחרי הביס האחרון.':'We don’t just serve a menu. We create a whole evening — taste, atmosphere, and moments that linger long after the last bite.',
+    'הכל מתחיל בשיחה על מה שאתם אוהבים, ונגמר כשהאורחים כבר שואלים מתי הפעם הבאה.':'It starts with a conversation about what you love, and ends with your guests already asking when the next time is.',
     'עקבו אחרינו':'Follow Us',
     'הכי טעים':'The tastiest',
     'ברשת':'online',
