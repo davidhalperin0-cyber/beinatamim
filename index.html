@@ -1490,6 +1490,43 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
 .info-item .i-icon::before{content:none;}
+
+/* ═══ פתיחה קולנועית · חותם המותג ═══ */
+#bt-loader{background:#0A0805 !important;}
+#bt-loader::before{
+  background:
+    radial-gradient(circle at 50% 42%, rgba(198,160,82,.22), transparent 55%),
+    radial-gradient(circle at 70% 78%, rgba(198,160,82,.10), transparent 55%) !important;
+  filter:blur(50px) !important;
+}
+.bt-l-mark{display:flex;flex-direction:column;align-items:center;gap:0;}
+.bt-l-seal{
+  width:clamp(190px,26vw,300px);height:auto;display:block;
+  opacity:0;transform:scale(.9);
+  animation:btSealIn 1.2s cubic-bezier(.2,.7,.2,1) .1s forwards, btSealGlow 3.2s ease-in-out 1.3s infinite;
+}
+@keyframes btSealIn{
+  0%{opacity:0;transform:scale(.9) translateY(6px);filter:drop-shadow(0 0 0 rgba(198,160,82,0));}
+  100%{opacity:1;transform:scale(1) translateY(0);filter:drop-shadow(0 0 22px rgba(198,160,82,.32));}
+}
+@keyframes btSealGlow{
+  0%,100%{filter:drop-shadow(0 0 18px rgba(198,160,82,.24));}
+  50%{filter:drop-shadow(0 0 34px rgba(198,160,82,.5));}
+}
+/* נצנוץ זהב חולף על החותם */
+.bt-l-mark::after{
+  content:'';position:absolute;top:0;bottom:22%;left:-40%;width:34%;
+  background:linear-gradient(100deg,transparent,rgba(255,240,200,.55),transparent);
+  transform:skewX(-14deg);filter:blur(3px);
+  animation:btSealSheen 2.6s ease-in-out 1.4s infinite;
+  pointer-events:none;mix-blend-mode:screen;
+}
+@keyframes btSealSheen{0%{left:-40%;opacity:0;}22%{opacity:1;}55%{left:120%;opacity:0;}100%{left:120%;opacity:0;}}
+.bt-l-mark .bt-l-line{background:linear-gradient(90deg,transparent,var(--gold),transparent) !important;margin-top:-.3rem;}
+.bt-l-counter{color:var(--gold) !important;letter-spacing:.5em;font-size:.72rem;margin-top:1.1rem;opacity:.85;}
+.bt-l-bar{background:rgba(198,160,82,.12) !important;}
+.bt-l-bar-fill{background:linear-gradient(90deg,transparent,var(--gold),var(--gold-l)) !important;}
+@media(prefers-reduced-motion:reduce){.bt-l-seal{animation:none;opacity:1;transform:none;}.bt-l-mark::after{display:none;}}
 </style>
 </head>
 <body>
@@ -2421,7 +2458,10 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
 
 <!-- Cinematic loader -->
 <div id="bt-loader" aria-hidden="true">
-  <div class="bt-l-mark">בין <span>הטעמים</span><i class="bt-l-line"></i></div>
+  <div class="bt-l-mark">
+    <img class="bt-l-seal" src="public/seal-crest-gold.webp" alt="" decoding="async" />
+    <i class="bt-l-line"></i>
+  </div>
   <div class="bt-l-counter" id="btLoaderCounter">0%</div>
   <div class="bt-l-bar"><div class="bt-l-bar-fill" id="btLoaderFill"></div></div>
 </div>
