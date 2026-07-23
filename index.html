@@ -1528,6 +1528,9 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
 .bt-l-bar-fill{background:linear-gradient(90deg,transparent,var(--gold),var(--gold-l)) !important;}
 @media(prefers-reduced-motion:reduce){.bt-l-seal{animation:none;opacity:1;transform:none;}.bt-l-mark::after{display:none;}}
 
+/* ביצועים: כיבוי קנבס גרעיניות מת (הוחלף בגרעיניות CSS) */
+#bt-grain{display:none !important;}
+
 /* ═══ מנות חתימה · גלריית ריחוף חתימתית ═══ */
 .sig{background:#0C0A06;color:var(--cream);padding:clamp(4rem,9vw,7rem) 7%;position:relative;overflow:hidden;}
 .sig::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
@@ -2356,8 +2359,7 @@ body.bt-locked{overflow:hidden;}
 }
 .bt-cursor{
   width:42px;height:42px;border-radius:50%;
-  border:1.2px solid rgba(193,113,74,.85);
-  mix-blend-mode:multiply;
+  border:1.2px solid rgba(173,138,69,.75);
   transition:width .35s, height .35s, background-color .35s, border-color .35s;
 }
 .bt-cursor-dot{
@@ -2370,8 +2372,7 @@ body.bt-cursor-hover .bt-cursor{
   border-color:rgba(193,113,74,.6);
 }
 body.bt-cursor-dark .bt-cursor{
-  border-color:rgba(245,239,224,.85);
-  mix-blend-mode:difference;
+  border-color:rgba(230,200,126,.85);
 }
 body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
 @media(max-width:900px),(hover:none){
@@ -3261,6 +3262,7 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
      8. Ember canvas behind hero
   =================================== */
   function initEmbers(){
+    return; /* מושבת לביצועים: 140 חלקיקים עם radial-gradient בכל פריים העמיסו על הדסקטופ */
     if(reduced) return;
     var hero = document.querySelector('.hero');
     if(!hero) return;
@@ -3359,6 +3361,7 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
      9. Animated grain
   =================================== */
   function initGrain(){
+    return; /* מושבת לביצועים: הוחלף בגרעיניות CSS סטטית (body::before) */
     if(reduced) return;
     var c = document.getElementById('bt-grain');
     if(!c) return;
