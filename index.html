@@ -1536,6 +1536,24 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
 .chef-media:hover video{transform:scale(1.06);}
 .chef-media video{transition:transform 1.1s cubic-bezier(.2,.7,.2,1);}
 
+/* ═══ מהאירועים · פריסה עריכתית ═══ */
+.events{background:var(--cream);padding:clamp(4rem,9vw,7rem) 7%;position:relative;overflow:hidden;}
+.events::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.evt-head{text-align:center;margin-bottom:clamp(2rem,5vw,3.2rem);}
+.evt-head .s-title{margin:0 auto;}
+.evt-sub{font-size:.95rem;color:var(--text-s);max-width:540px;margin:1rem auto 0;line-height:1.75;font-weight:300;}
+.evt-grid{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:repeat(2,clamp(165px,20vw,262px));gap:14px;max-width:1120px;margin:0 auto;}
+.evt-feature{grid-row:1 / span 2;}
+.evt-grid figure{position:relative;margin:0;overflow:hidden;border:1px solid var(--linen);background:#0A0805;}
+.evt-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1),filter .5s ease;}
+.evt-grid figure:hover img{transform:scale(1.05);}
+.evt-grid figcaption{position:absolute;bottom:0;left:0;right:0;padding:1.5rem 1.1rem .85rem;color:var(--cream);font-family:'Frank Ruhl Libre',serif;font-size:.9rem;letter-spacing:.02em;background:linear-gradient(to top,rgba(10,7,4,.82),transparent);}
+@media(max-width:760px){
+  .evt-grid{grid-template-columns:1fr;grid-template-rows:none;gap:12px;}
+  .evt-feature{grid-row:auto;}
+  .evt-grid figure{height:clamp(210px,58vw,320px);}
+}
+
 /* ═══ מנות חתימה · גלריית ריחוף חתימתית ═══ */
 .sig{background:#0C0A06;color:var(--cream);padding:clamp(4rem,9vw,7rem) 7%;position:relative;overflow:hidden;}
 .sig::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
@@ -1730,6 +1748,29 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
       <div class="sv-sub"><h4>אירועים חלביים</h4><p>קו חלבי ים-תיכוני־איטלקי לאירוח: מנות פתיחה, פסטות, ריזוטו ודגים — אלגנטי ומדויק.</p></div>
       <div class="sv-sub"><h4>ייעוץ קולינרי</h4><p>ליווי מקצועי לעסקי מזון: הקמה, ניתוח עסקי ובניית קו אוכל מותאם.</p></div>
     </div>
+  </div>
+</section>
+
+<!-- FROM THE EVENTS -->
+<section class="events" id="events">
+  <div class="s-head rev evt-head">
+    <p class="s-label">מהאירועים</p>
+    <h2 class="s-title">אירוע שלם, על השולחן שלכם</h2>
+    <p class="evt-sub">לא רק מנה — תחנות שלמות, שפע של סלטים, ירקות ובשרים, בהגשה שממלאת את החלל.</p>
+  </div>
+  <div class="evt-grid rev">
+    <figure class="evt-feature">
+      <img src="public/event-1.webp" alt="תחנת בופה באירוע — בשרים, סלטים ופיתות בקיר אבן ירושלמי" loading="lazy" decoding="async">
+      <figcaption>תחנת שף באירוע · ירושלים</figcaption>
+    </figure>
+    <figure class="evt-side">
+      <img src="public/event-3.webp" alt="תחנת ירקות וסלטים ססגונית באירוע" loading="lazy" decoding="async">
+      <figcaption>שולחן סלטים וירקות העונה</figcaption>
+    </figure>
+    <figure class="evt-side">
+      <img src="public/event-2.webp" alt="בר אירוח שופע באירוע ערב" loading="lazy" decoding="async">
+      <figcaption>שפע שממלא את החלל</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -2597,6 +2638,12 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
     'עיקרית בשרית':'Meat main',
     'טרטר טונה, מנגו ואבוקדו':'Tuna tartare, mango & avocado',
     'מנת פתיחה':'Starter',
+    'מהאירועים':'From the Events',
+    'אירוע שלם, על השולחן שלכם':'A full event, on your table',
+    'לא רק מנה — תחנות שלמות, שפע של סלטים, ירקות ובשרים, בהגשה שממלאת את החלל.':'Not just a dish — full stations, an abundance of salads, vegetables and meats, in a spread that fills the room.',
+    'תחנת שף באירוע · ירושלים':'Chef station at an event · Jerusalem',
+    'שולחן סלטים וירקות העונה':'A table of seasonal salads & vegetables',
+    'שפע שממלא את החלל':'Abundance that fills the room',
     "סביצ'ה דג, רוטב הדרים חריף":'Fish ceviche, spicy citrus sauce',
     "סביצ'ה דג, רוטב הדרים":'Fish ceviche, citrus sauce',
     "קרפצ'יו דג ואבטיח":'Fish carpaccio & watermelon',
