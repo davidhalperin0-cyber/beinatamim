@@ -8,8 +8,8 @@
 <script>
 (function(){
   var META_PIXEL_ID = '';     /* מ-Meta Events Manager, 15 ספרות */
-  var GOOGLE_TAG_ID = '';     /* GA4 "G-XXXX" או Google Ads "AW-XXXX" */
-  var GADS_CONVERSION = '';   /* "AW-XXXX/label" — להמרת לחיצת וואטסאפ */
+  var GOOGLE_TAG_ID = 'AW-18003176257';     /* Google Ads tag */
+  var GADS_CONVERSION = 'AW-18003176257/z1OfCOjRwqkdEMHWyohD';   /* המרת לחיצת וואטסאפ */
   if(META_PIXEL_ID){
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init',META_PIXEL_ID);fbq('track','PageView');
