@@ -1628,6 +1628,44 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   .sig-txt{padding:.85rem 1.1rem 1.15rem;}
 }
 </style>
+<style id="lux-light">
+/* ── האתר בהיר: מנות חתימה, המלצות, סרט רץ ו-CTA על שנהב במקום אספרסו ── */
+.marquee{background:var(--parchment)!important;}
+.marquee-inner{color:var(--text)!important;}
+.marquee-inner span{color:var(--gold)!important;}
+
+.sig{background:var(--parchment)!important;color:var(--text)!important;}
+.sig .s-title,.sig-name{color:var(--text)!important;}
+.sig-tag{color:var(--text-s)!important;}
+.sig-item,.sig-item:first-child{border-color:rgba(173,138,69,.28)!important;}
+.sig-item:hover .sig-name{color:var(--gold)!important;}
+.sig-stage{background:var(--linen)!important;box-shadow:0 24px 60px rgba(60,43,31,.16);}
+.sig-stage::after{box-shadow:none!important;}
+
+.testimonials{background:var(--cream)!important;}
+.testimonials .s-label{color:var(--gold)!important;}
+.testimonials .s-title{color:var(--text)!important;}
+.wa-card{box-shadow:0 18px 44px rgba(60,43,31,.18),0 0 0 1px rgba(173,138,69,.22)!important;}
+
+.cta-ov{background:linear-gradient(180deg,rgba(251,248,241,.9),rgba(244,238,225,.94))!important;}
+.cta .s-label{color:var(--gold)!important;}
+.cta h2{color:var(--text)!important;}
+.cta p{color:var(--text-s)!important;}
+.cta .btn-ow{color:var(--text)!important;border-color:rgba(173,138,69,.55)!important;}
+.cta .btn-ow:hover{background:rgba(173,138,69,.08)!important;border-color:var(--gold)!important;}
+
+/* ── מובייל: מנות חתימה והמלצות בגלילה הצידה במקום ערימה אנכית ארוכה ── */
+@media(max-width:860px){
+  .sig-list,.wa-grid{display:flex!important;flex-direction:row!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px!important;max-width:none!important;margin-inline:-7%;padding:0 7% 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .sig-list::-webkit-scrollbar,.wa-grid::-webkit-scrollbar{display:none;}
+  .sig-item{flex:0 0 78%;scroll-snap-align:center;opacity:1!important;}
+  .wa-card{flex:0 0 82%;scroll-snap-align:center;max-height:520px;}
+  .wa-card img{max-height:470px;object-fit:cover;object-position:top;}
+  .sig-list::after,.wa-grid::after{content:'';flex:0 0 1px;}
+  .swipe-hint{display:block;text-align:center;font-size:.78rem;color:var(--text-s);letter-spacing:.08em;margin-top:.6rem;}
+}
+@media(min-width:861px){.swipe-hint{display:none;}}
+</style>
 </head>
 <body>
 <!-- shared SVG defs: gold gradient for WhatsApp icon in CTAs -->
@@ -1724,17 +1762,6 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   </div>
 </section>
 
-<!-- IMG STRIP -->
-<div class="strip" data-blur-target>
-  <img src="public/dish-carpaccio-watermelon.webp" alt="קרפצ'יו דג ואבטיח עם עלי מיקרו" loading="lazy" decoding="async" />
-  <div class="strip-ov">
-    <div class="strip-text">
-      <h3>חומרי גלם.<br>לא פשרות.</h3>
-      <p>כל מנה בנויה מבסיס של חומרי גלם איכותיים גידול מקומי, עיבוד מדויק, תוצאה שמדברת בעד עצמה.</p>
-    </div>
-  </div>
-</div>
-
 <!-- CHEF -->
 <section class="chef" id="chef">
   <div class="chef-grid">
@@ -1759,13 +1786,6 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   io.observe(v);
 })();
 </script>
-
-<!-- BRAND SEAL -->
-<section class="brand-seal rev">
-  <img src="public/seal-emblem.webp" alt="חותם בין הטעמים — שף פרטי, ירושלים" loading="lazy" decoding="async">
-  <p class="bs-kicker">מטבח בוטיק · ירושלים</p>
-  <p>הכל מתחיל בשיחה על מה שאתם אוהבים, ונגמר כשהאורחים כבר שואלים מתי הפעם הבאה.</p>
-</section>
 
 <!-- SERVICES -->
 <section class="services" id="services">
@@ -1834,41 +1854,6 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   </div>
 </section>
 
-<!-- SPLIT PANELS -->
-<div class="split">
-  <div class="sp" data-blur-target>
-    <img src="public/img-5.webp" alt="שורט ריב על פירה דלעת" loading="lazy" decoding="async" />
-    <div class="sp-ov">
-      <span class="sp-tag">אירוע · אירוח · חג</span>
-      <h3 class="sp-ttl">שולחן שמחזיק<br>סעודה שלמה</h3>
-      <p class="sp-desc">מנות שנבנו לאירוע — עיקריות בשריות, תוספות וסלטים שמרכיבים ארוחה שלמה ומרשימה.</p>
-      <span class="sp-arrow">לשירותים →</span>
-    </div>
-  </div>
-  <div class="sp" data-blur-target>
-    <img src="public/dish-crudo-labneh.webp" alt="קרודו דג על לבנה עם פיסטוק" loading="lazy" decoding="async" />
-    <div class="sp-ov">
-      <span class="sp-tag">חומרי גלם · אירועים</span>
-      <h3 class="sp-ttl">חשיבה קולינרית<br>בכל מנה</h3>
-      <p class="sp-desc">אנחנו עובדים עם חומרי גלם איכותיים ומקומיים, עם תשומת לב לכל פרט בצלחת.</p>
-      <span class="sp-arrow">על המטבח →</span>
-    </div>
-  </div>
-</div>
-
-<!-- PARALLAX QUOTE -->
-<section class="pq" data-blur-target>
-  <div class="pq-bg"></div>
-  <div class="pq-ov"></div>
-  <div class="pq-content">
-    <blockquote>
-      "אוכל שנבנה לאירוע — לטעמים שזוכרים, ולמארחים שרוצים להיות עם האורחים."
-      <cite> בין הטעמים · מטבח בוטיק ירושלמי</cite>
-    </blockquote>
-  </div>
-</section>
-
-
 <!-- SIGNATURE DISHES -->
 <section class="sig" id="dishes">
   <div class="s-head rev sig-head">
@@ -1916,6 +1901,7 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
       <img src="public/dish-burrata.webp" alt="" loading="lazy" decoding="async">
     </div>
   </div>
+  <p class="swipe-hint">החליקו הצידה לעוד ←</p>
 </section>
 <script>
 (function(){
@@ -1948,6 +1934,7 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
       <img src="public/review-5.webp" alt="המלצת לקוחה בוואטסאפ: שבת עם אסאדו" loading="lazy" decoding="async">
     </figure>
   </div>
+  <p class="swipe-hint">החליקו הצידה לעוד ←</p>
   <div class="g-rev rev">
     <span class="g-stars" aria-hidden="true">★★★★★</span>
     <span class="g-score">5.0 בגוגל</span>
@@ -1955,35 +1942,6 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   </div>
 </section>
 
-
-<!-- MOSAIC -->
-<div class="mosaic">
-  <div class="mo tall"><img src="public/dish-crudo-labneh.webp" alt="קרודו דג על לבנה ופיסטוק" loading="lazy"/><div class="mo-cap">קרודו דג על לבנה ופיסטוק</div></div>
-  <div class="mo"><img src="public/dish-tartare-mango.webp" alt="טרטר טונה עם מנגו ואבוקדו" loading="lazy"/><div class="mo-cap">טרטר טונה, מנגו ואבוקדו</div></div>
-  <div class="mo"><img src="public/img-5.webp" alt="שורט ריב" loading="lazy"/><div class="mo-cap">שורט ריב ופירה דלעת</div></div>
-  <div class="mo"><img src="public/dish-burrata.webp" alt="בורטה על סלט עגבניות" loading="lazy"/><div class="mo-cap">בורטה, עגבניות שרי ובזיליקום</div></div>
-  <div class="mo"><img src="public/chef-plating.webp" alt="השף מצלחת באירוע" loading="lazy"/><div class="mo-cap">מאחורי הקלעים</div></div>
-  <div class="mo"><img src="public/dish-ceviche.webp" alt="סביצ'ה דג ברוטב הדרים חריף" loading="lazy"/><div class="mo-cap">סביצ'ה דג, רוטב הדרים</div></div>
-</div>
-
-<!-- SOCIAL SNAP -->
-<section class="social-snap">
-  <p class="social-snap-label">עקבו אחרינו</p>
-  <h2 class="social-snap-title">הכי טעים<br><span>ברשת</span></h2>
-  <p class="social-snap-sub">מתכונים, הצצות למטבח, ורגעים שמגיעים מהלב</p>
-  <div class="social-snap-btns">
-    <a class="snap-ig" href="https://www.instagram.com/kobi.canary?igsh=NDV5dXNyMG9pb3Jn&utm_source=qr" target="_blank" rel="noopener">
-      <svg class="snap-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.516 2.497 5.783 2.226 7.149 2.163 8.415 2.105 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.333.013 7.053.072 5.196.157 3.497.645 2.1 2.1.645 3.497.157 5.196.072 7.053.013 8.333 0 8.741 0 12c0 3.259.013 3.668.072 4.948.085 1.857.573 3.555 2.028 5.01 1.397 1.454 3.096 1.942 4.953 2.027C8.333 23.987 8.741 24 12 24s3.668-.013 4.948-.072c1.857-.085 3.555-.573 5.01-2.027 1.454-1.397 1.942-3.096 2.027-4.953.059-1.28.072-1.689.072-4.948 0-3.259-.013-3.668-.072-4.948-.085-1.857-.573-3.555-2.027-5.01C20.555.645 18.857.157 17 .072 15.667.013 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-      <span class="snap-handle">@kobi.canary</span>
-      <span class="snap-network">Instagram</span>
-    </a>
-    <a class="snap-tt" href="https://www.tiktok.com/@kobi.canary?_r=1&_t=ZS-94BbXiiZZ2X" target="_blank" rel="noopener">
-      <svg class="snap-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
-      <span class="snap-handle">@kobi.canary</span>
-      <span class="snap-network">TikTok</span>
-    </a>
-  </div>
-</section>
 
 <!-- CTA -->
 <section class="cta" data-blur-target>
@@ -2648,6 +2606,7 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
     'ארוחה פרטית בבית':'Private dinner at home',
     'שבת עם אסאדו':'Shabbat with asado',
     '5.0 בגוגל':'5.0 on Google',
+    'החליקו הצידה לעוד ←':'Swipe for more ←',
     'נהניתם מאירוע איתנו? השאירו ביקורת בגוגל ↗':'Enjoyed an event with us? Leave a Google review ↗',
     'מהאירועים':'From the Events',
     'אירוע שלם, על השולחן שלכם':'A full event, on your table',
