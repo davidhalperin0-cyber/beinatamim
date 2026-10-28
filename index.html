@@ -1578,16 +1578,6 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   .evt-grid figure{height:clamp(210px,58vw,320px);}
 }
 
-/* ═══ המלצות · כרטיסי ציטוט ═══ */
-.tq-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:18px;max-width:1120px;margin:0 auto;align-items:stretch;}
-.tq-card{position:relative;margin:0;padding:2.4rem 1.8rem 1.7rem;border:1px solid rgba(198,160,82,.28);background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.01));display:flex;flex-direction:column;gap:1.3rem;transition:border-color .4s ease,transform .5s cubic-bezier(.2,.7,.2,1);}
-.tq-card:hover{border-color:rgba(198,160,82,.6);transform:translateY(-4px);}
-.tq-mark{position:absolute;top:.4rem;right:1.2rem;font-family:'Frank Ruhl Libre',serif;font-size:4.6rem;line-height:1;color:var(--gold);opacity:.55;}
-.tq-card blockquote{margin:0;font-family:'Frank Ruhl Libre',serif;font-size:1.06rem;line-height:1.85;color:var(--cream);font-weight:400;}
-.tq-feature blockquote{font-size:1.2rem;}
-.tq-card figcaption{margin-top:auto;font-size:.74rem;letter-spacing:.24em;color:var(--gold);padding-top:1rem;border-top:1px solid rgba(198,160,82,.2);}
-@media(max-width:860px){.tq-grid{grid-template-columns:1fr;gap:14px;}.tq-card{padding:2.2rem 1.4rem 1.5rem;}}
-
 /* ═══ מנות חתימה · גלריית ריחוף חתימתית ═══ */
 .sig{background:#0C0A06;color:var(--cream);padding:clamp(4rem,9vw,7rem) 7%;position:relative;overflow:hidden;}
 .sig::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
@@ -1926,24 +1916,61 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
     <p class="s-label">לקוחות מספרים</p>
     <h2 class="s-title">מה אומרים עלינו</h2>
   </div>
-  <div class="tq-grid">
-    <figure class="tq-card tq-feature rev">
-      <span class="tq-mark" aria-hidden="true">&rdquo;</span>
-      <blockquote>בשבת חתן שלנו בחרנו בקובי והרגשנו שעשינו החלטה נכונה. האוכל היה ברמה גבוהה מאוד — טעמים עמוקים, בשרים רכים, תוספות עשירות וסלטים טריים. השירות אדיב ומקצועי ונותן תחושת ביטחון אמיתית. חוויה קולינרית ברמה של אירוע גדול.</blockquote>
-      <figcaption>שבת חתן</figcaption>
-    </figure>
-    <figure class="tq-card rev">
-      <span class="tq-mark" aria-hidden="true">&rdquo;</span>
-      <blockquote>קובי בישל לנו לארוחה פרטית בבית. האוכל היה איכותי ומוקפד והטעמים מדויקים. הכל הגיע מסודר ובשפע.</blockquote>
-      <figcaption>ארוחה פרטית בבית</figcaption>
-    </figure>
-    <figure class="tq-card rev">
-      <span class="tq-mark" aria-hidden="true">&rdquo;</span>
-      <blockquote>הבשר היה רך ומתפרק מהעצם עם טעם עמוק ומדויק. הסלטים טריים, התוספות מושקעות, והאורחים לא הפסיקו לשאול מי הכין.</blockquote>
-      <figcaption>שבת עם אסאדו</figcaption>
-    </figure>
+  <div class="tcarousel">
+    <div id="tslides">
+      <div class="tcard-img active"><img src="public/review-1.webp" alt="המלצת לקוחה: סלטים, דג לשבת — היה מעולה" loading="lazy"></div>
+      <div class="tcard-img"><img src="public/review-3.webp" alt="המלצת לקוחה: ארוחה פרטית בבית — אוכל איכותי ומוקפד" loading="lazy"></div>
+      <div class="tcard-img"><img src="public/review-4.webp" alt="המלצת לקוחה: שבת חתן — חוויה קולינרית ברמה גבוהה" loading="lazy"></div>
+      <div class="tcard-img"><img src="public/review-5.webp" alt="המלצת לקוחה: חבילת שבת עם אסאדו" loading="lazy"></div>
+    </div>
+    <button class="tarrow tarrow-prev" id="tPrev" aria-label="הקודם">→</button>
+    <button class="tarrow tarrow-next" id="tNext" aria-label="הבא">←</button>
+    <div class="tdots" id="tdots"></div>
+    <div class="tprogress"><div class="tprogress-fill" id="tprogfill"></div></div>
   </div>
 </section>
+
+<script>
+(function(){
+  var slides   = document.getElementById('tslides');
+  var cards    = Array.from(slides.querySelectorAll('.tcard-img'));
+  var dotsWrap = document.getElementById('tdots');
+  var fill     = document.getElementById('tprogfill');
+  var total    = cards.length;
+  var current  = 0;
+  var timer;
+
+  // Build dots
+  cards.forEach(function(_,i){
+    var d = document.createElement('button');
+    d.className = 'tdot'+(i===0?' active':'');
+    d.setAttribute('aria-label','המלצה '+(i+1));
+    d.addEventListener('click',function(){ goTo(i); restart(); });
+    dotsWrap.appendChild(d);
+  });
+
+  function goTo(n){
+    cards[current].classList.remove('active');
+    dotsWrap.children[current].classList.remove('active');
+    current = (n+total)%total;
+    cards[current].classList.add('active');
+    dotsWrap.children[current].classList.add('active');
+    fill.style.animation='none';
+    fill.offsetHeight;
+    fill.style.animation='tprogress 5s linear infinite';
+  }
+
+  function restart(){
+    clearInterval(timer);
+    timer = setInterval(function(){ goTo(current+1); }, 5000);
+  }
+
+  document.getElementById('tNext').addEventListener('click',function(){ goTo(current-1); restart(); });
+  document.getElementById('tPrev').addEventListener('click',function(){ goTo(current+1); restart(); });
+
+  restart();
+})();
+</script>
 
 
 <!-- MOSAIC -->
@@ -2635,12 +2662,6 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
     'עיקרית בשרית':'Meat main',
     'טרטר טונה, מנגו ואבוקדו':'Tuna tartare, mango & avocado',
     'מנת פתיחה':'Starter',
-    'בשבת חתן שלנו בחרנו בקובי והרגשנו שעשינו החלטה נכונה. האוכל היה ברמה גבוהה מאוד — טעמים עמוקים, בשרים רכים, תוספות עשירות וסלטים טריים. השירות אדיב ומקצועי ונותן תחושת ביטחון אמיתית. חוויה קולינרית ברמה של אירוע גדול.':'For our Shabbat Chatan we chose Kobi and felt we made the right decision. The food was at a very high level — deep flavors, tender meats, rich sides and fresh salads. The service was kind and professional and gave a real sense of confidence. A culinary experience on the level of a major event.',
-    'קובי בישל לנו לארוחה פרטית בבית. האוכל היה איכותי ומוקפד והטעמים מדויקים. הכל הגיע מסודר ובשפע.':'Kobi cooked a private dinner for us at home. The food was high-quality and meticulous, the flavors precise. Everything arrived organized and abundant.',
-    'הבשר היה רך ומתפרק מהעצם עם טעם עמוק ומדויק. הסלטים טריים, התוספות מושקעות, והאורחים לא הפסיקו לשאול מי הכין.':'The meat was tender and falling off the bone, with a deep, precise flavor. The salads were fresh, the sides lavish, and the guests kept asking who made it.',
-    'שבת חתן':'Shabbat Chatan',
-    'ארוחה פרטית בבית':'Private dinner at home',
-    'שבת עם אסאדו':'Shabbat with asado',
     'מהאירועים':'From the Events',
     'אירוע שלם, על השולחן שלכם':'A full event, on your table',
     'לא רק מנה — תחנות שלמות, שפע של סלטים, ירקות ובשרים, בהגשה שממלאת את החלל.':'Not just a dish — full stations, an abundance of salads, vegetables and meats, in a spread that fills the room.',
