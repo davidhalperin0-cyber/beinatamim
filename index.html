@@ -1665,6 +1665,18 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   .swipe-hint{display:block;text-align:center;font-size:.78rem;color:var(--text-s);letter-spacing:.08em;margin-top:.6rem;}
 }
 @media(min-width:861px){.swipe-hint{display:none;}}
+
+/* ── אייקונים צפים: בלי חיתוך צל מרובע, טבעת לבנה שבולטת על כל רקע ── */
+.float-social{overflow:visible!important;padding:8px;}
+.float-soc{border:2px solid #fff!important;box-shadow:0 6px 18px rgba(36,26,18,.28)!important;}
+.float-soc.ig:hover,.float-soc.tt:hover{box-shadow:0 10px 26px rgba(36,26,18,.38)!important;border-color:#fff!important;}
+.float-soc svg{width:20px;height:20px;}
+@media(max-width:860px){
+  .float-social{top:auto!important;bottom:96px!important;left:.9rem!important;transform:none!important;gap:.55rem!important;padding:0;}
+  html[lang="en"] .float-social{left:auto!important;right:.9rem!important;}
+  .float-soc{width:40px!important;height:40px!important;}
+  .float-soc svg{width:18px;height:18px;}
+}
 </style>
 </head>
 <body>
