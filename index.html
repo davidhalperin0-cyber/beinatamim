@@ -1578,6 +1578,19 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
   .evt-grid figure{height:clamp(210px,58vw,320px);}
 }
 
+/* ═══ המלצות · חלונות צ'אט וואטסאפ אמיתיים ═══ */
+.wa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1120px;margin:0 auto;align-items:start;}
+.wa-card{margin:0;border-radius:14px;overflow:hidden;background:#0b141a;box-shadow:0 18px 50px rgba(0,0,0,.45),0 0 0 1px rgba(198,160,82,.22);transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .4s ease;}
+.wa-card:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(0,0,0,.55),0 0 0 1px rgba(198,160,82,.5);}
+.wa-head{display:flex;align-items:center;gap:.7rem;padding:.75rem 1rem;background:#1f2c34;}
+.wa-av{width:34px;height:34px;border-radius:50%;background:#2a3942;color:#8696a0;display:grid;place-items:center;flex-shrink:0;}
+.wa-av svg{width:20px;height:20px;}
+.wa-who{display:flex;flex-direction:column;line-height:1.25;}
+.wa-who b{color:#e9edef;font-weight:600;font-size:.92rem;}
+.wa-who small{color:#25d366;font-size:.7rem;letter-spacing:.04em;}
+.wa-card img{display:block;width:100%;height:auto;}
+@media(max-width:860px){.wa-grid{grid-template-columns:1fr;max-width:460px;gap:16px;}}
+
 /* ═══ מנות חתימה · גלריית ריחוף חתימתית ═══ */
 .sig{background:#0C0A06;color:var(--cream);padding:clamp(4rem,9vw,7rem) 7%;position:relative;overflow:hidden;}
 .sig::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
@@ -1916,60 +1929,21 @@ h1 .accent{color:var(--terra-l);text-shadow:0 2px 30px rgba(199,168,94,.35);}
     <p class="s-label">לקוחות מספרים</p>
     <h2 class="s-title">מה אומרים עלינו</h2>
   </div>
-  <div class="tcarousel">
-    <div id="tslides">
-      <div class="tcard-img active"><img src="public/review-3.webp" alt="המלצת לקוחה: ארוחה פרטית בבית — אוכל איכותי ומוקפד" loading="lazy"></div>
-      <div class="tcard-img"><img src="public/review-4.webp" alt="המלצת לקוחה: שבת חתן — חוויה קולינרית ברמה גבוהה" loading="lazy"></div>
-      <div class="tcard-img"><img src="public/review-5.webp" alt="המלצת לקוחה: חבילת שבת עם אסאדו" loading="lazy"></div>
-    </div>
-    <button class="tarrow tarrow-prev" id="tPrev" aria-label="הקודם">→</button>
-    <button class="tarrow tarrow-next" id="tNext" aria-label="הבא">←</button>
-    <div class="tdots" id="tdots"></div>
-    <div class="tprogress"><div class="tprogress-fill" id="tprogfill"></div></div>
+  <div class="wa-grid">
+    <figure class="wa-card rev">
+      <div class="wa-head"><span class="wa-av" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2.2c-4 0-8 2-8 4.8V21h16v-2c0-2.8-4-4.8-8-4.8Z"/></svg></span><span class="wa-who"><b>שבת חתן</b><small>וואטסאפ</small></span></div>
+      <img src="public/review-4.webp" alt="המלצת לקוחה בוואטסאפ: שבת חתן — חוויה קולינרית ברמה גבוהה" loading="lazy" decoding="async">
+    </figure>
+    <figure class="wa-card rev">
+      <div class="wa-head"><span class="wa-av" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2.2c-4 0-8 2-8 4.8V21h16v-2c0-2.8-4-4.8-8-4.8Z"/></svg></span><span class="wa-who"><b>ארוחה פרטית בבית</b><small>וואטסאפ</small></span></div>
+      <img src="public/review-3.webp" alt="המלצת לקוחה בוואטסאפ: ארוחה פרטית בבית" loading="lazy" decoding="async">
+    </figure>
+    <figure class="wa-card rev">
+      <div class="wa-head"><span class="wa-av" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2.2c-4 0-8 2-8 4.8V21h16v-2c0-2.8-4-4.8-8-4.8Z"/></svg></span><span class="wa-who"><b>שבת עם אסאדו</b><small>וואטסאפ</small></span></div>
+      <img src="public/review-5.webp" alt="המלצת לקוחה בוואטסאפ: שבת עם אסאדו" loading="lazy" decoding="async">
+    </figure>
   </div>
 </section>
-
-<script>
-(function(){
-  var slides   = document.getElementById('tslides');
-  var cards    = Array.from(slides.querySelectorAll('.tcard-img'));
-  var dotsWrap = document.getElementById('tdots');
-  var fill     = document.getElementById('tprogfill');
-  var total    = cards.length;
-  var current  = 0;
-  var timer;
-
-  // Build dots
-  cards.forEach(function(_,i){
-    var d = document.createElement('button');
-    d.className = 'tdot'+(i===0?' active':'');
-    d.setAttribute('aria-label','המלצה '+(i+1));
-    d.addEventListener('click',function(){ goTo(i); restart(); });
-    dotsWrap.appendChild(d);
-  });
-
-  function goTo(n){
-    cards[current].classList.remove('active');
-    dotsWrap.children[current].classList.remove('active');
-    current = (n+total)%total;
-    cards[current].classList.add('active');
-    dotsWrap.children[current].classList.add('active');
-    fill.style.animation='none';
-    fill.offsetHeight;
-    fill.style.animation='tprogress 5s linear infinite';
-  }
-
-  function restart(){
-    clearInterval(timer);
-    timer = setInterval(function(){ goTo(current+1); }, 5000);
-  }
-
-  document.getElementById('tNext').addEventListener('click',function(){ goTo(current-1); restart(); });
-  document.getElementById('tPrev').addEventListener('click',function(){ goTo(current+1); restart(); });
-
-  restart();
-})();
-</script>
 
 
 <!-- MOSAIC -->
@@ -2661,6 +2635,8 @@ body.bt-cursor-dark .bt-cursor-dot{background:#F5EFE0;}
     'עיקרית בשרית':'Meat main',
     'טרטר טונה, מנגו ואבוקדו':'Tuna tartare, mango & avocado',
     'מנת פתיחה':'Starter',
+    'ארוחה פרטית בבית':'Private dinner at home',
+    'שבת עם אסאדו':'Shabbat with asado',
     'מהאירועים':'From the Events',
     'אירוע שלם, על השולחן שלכם':'A full event, on your table',
     'לא רק מנה — תחנות שלמות, שפע של סלטים, ירקות ובשרים, בהגשה שממלאת את החלל.':'Not just a dish — full stations, an abundance of salads, vegetables and meats, in a spread that fills the room.',
